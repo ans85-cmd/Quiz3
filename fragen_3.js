@@ -6,7 +6,7 @@ const questions = [
     "c": "Das kognitiv-transaktionale Begriffsverständnis nach Lazarus.",
     "d": "Die Definition von Stress als rein emotionales Defizit.",
     "richtig": "c",
-    "begruendung": "In der Community Psychology wird Stress als transaktionales Geschehen zwischen Umweltanforderungen und der Person definiert [3, 4]."
+    "begruendung": "In der Community Psychology wird Stress als transaktionales Geschehen zwischen Umweltanforderungen und der Person definiert."
   },
   {
     "frage": "Was charakterisiert das „Primary Appraisal“ im Modell von Lazarus und Folkman?",
@@ -15,7 +15,7 @@ const questions = [
     "c": "Die rückblickende Bewertung einer bereits abgeschlossenen Handlung.",
     "d": "Die rein körperliche Stressreaktion wie erhöhter Puls.",
     "richtig": "b",
-    "begruendung": "Beim Primary Appraisal wird beurteilt, ob ein Ereignis das Wohlergehen bedroht, irrelevant ist oder positiv wirkt [4]."
+    "begruendung": "Beim Primary Appraisal wird beurteilt, ob ein Ereignis das Wohlergehen bedroht, irrelevant ist oder positiv wirkt."
   },
   {
     "frage": "Eine bevorstehende Prüfung wird als „Herausforderung“ (Challenge) eingestuft. Was bedeutet dies laut Studienbrief?",
@@ -24,7 +24,7 @@ const questions = [
     "c": "Es werden trotz Anstrengung auch positive Konsequenzen wie Erfolgserlebnisse erwartet.",
     "d": "Die Person hat bereits aufgegeben, die Situation zu beeinflussen.",
     "richtig": "c",
-    "begruendung": "Herausforderungen zeichnen sich dadurch aus, dass sie positive Emotionen und Erfolgserlebnisse ermöglichen können [4]."
+    "begruendung": "Herausforderungen zeichnen sich dadurch aus, dass sie positive Emotionen und Erfolgserlebnisse ermöglichen können."
   },
   {
     "frage": "Was wird im „Secondary Appraisal“ primär bewertet?",
@@ -33,7 +33,7 @@ const questions = [
     "c": "Die soziale Erwünschtheit der eigenen Stressreaktion.",
     "d": "Die langfristigen kulturellen Folgen des Stressors.",
     "richtig": "b",
-    "begruendung": "Hier geht es darum, ob die eigenen Fähigkeiten und Mittel ausreichen, um mit dem Stressor umzugehen [5]."
+    "begruendung": "Hier geht es darum, ob die eigenen Fähigkeiten und Mittel ausreichen, um mit dem Stressor umzugehen."
   },
   {
     "frage": "Was beschreibt der Begriff „Reappraisal“?",
@@ -42,7 +42,7 @@ const questions = [
     "c": "Eine Neubewertung der Situation aufgrund neuer Informationen oder Erfahrungen.",
     "d": "Die Unterdrückung von Emotionen zur Stressreduktion.",
     "richtig": "c",
-    "begruendung": "Reappraisal ist ein dynamischer Prozess, bei dem die Einschätzung angepasst wird, wenn neue Aspekte hinzukommen [5]."
+    "begruendung": "Reappraisal ist ein dynamischer Prozess, bei dem die Einschätzung angepasst wird, wenn neue Aspekte hinzukommen."
   },
   {
     "frage": "Was versteht man unter „dispositionellem Optimismus“?",
@@ -51,7 +51,7 @@ const questions = [
     "c": "Das Vertrauen, dass andere Menschen alle Probleme lösen werden.",
     "d": "Eine external-fatale Kontrollüberzeugung.",
     "richtig": "b",
-    "begruendung": "Es handelt sich um eine relativ zeit- und situationsstabile Persönlichkeitseigenschaft [5]."
+    "begruendung": "Es handelt sich um eine relativ zeit- und situationsstabile Persönlichkeitseigenschaft."
   },
   {
     "frage": "Welche Form der Kontrollüberzeugung ist mit einer geringeren Stressbelastung assoziiert?",
@@ -60,7 +60,7 @@ const questions = [
     "c": "Internale Kontrollüberzeugung (Einfluss durch eigenes Handeln).",
     "d": "Kognitive Vermeidung der Kontrollfrage.",
     "richtig": "c",
-    "begruendung": "Das Gefühl, selbst Einfluss nehmen zu können (internal), reduziert das Stressempfinden [5]."
+    "begruendung": "Das Gefühl, selbst Einfluss nehmen zu können (internal), reduziert das Stressempfinden."
   },
   {
     "frage": "Welches Konstrukt gehört NICHT zum Konzept der „Hardiness“ nach Kobasa?",
@@ -69,7 +69,7 @@ const questions = [
     "c": "Challenge (Herausforderung).",
     "d": "Cohesion (Kohäsion).",
     "richtig": "d",
-    "begruendung": "Hardiness besteht aus Engagement, Kontrolle und Herausforderung [6]. Kohäsion ist ein Merkmal von Familiensystemen (Olson)."
+    "begruendung": "Hardiness besteht aus Engagement, Kontrolle und Herausforderung. Kohäsion ist ein Merkmal von Familiensystemen (Olson)."
   },
   {
     "frage": "Was ist ein zentrales Element des Kohärenzsinns (Salutogenese)?",
@@ -78,7 +78,7 @@ const questions = [
     "c": "Die absolute Abhängigkeit von professionellen Helfern.",
     "d": "Die Einschätzung aller Ereignisse als rein positiv.",
     "richtig": "a",
-    "begruendung": "Kohärenzsinn umfasst Verstehbarkeit, Handhabbarkeit und Sinnhaftigkeit [6]."
+    "begruendung": "Kohärenzsinn umfasst Verstehbarkeit, Handhabbarkeit und Sinnhaftigkeit."
   },
   {
     "frage": "Skinner et al. (2003) kritisieren traditionelle Coping-Klassifikationen. Welchen Aspekt heben sie stattdessen hervor?",
@@ -87,7 +87,7 @@ const questions = [
     "c": "Dass Konfrontation immer besser ist als Vermeidung.",
     "d": "Dass Coping rein genetisch bedingt ist.",
     "richtig": "b",
-    "begruendung": "Sie sehen Bewältigung als Versuch, die Passung zwischen Individuum und Umweltanforderungen zu optimieren [7, 8]."
+    "begruendung": "Sie sehen Bewältigung als Versuch, die Passung zwischen Individuum und Umweltanforderungen zu optimieren."
   },
   {
     "frage": "Welches der folgenden Kriterien schlagen Zeidner und Saklofske (1996) zur Bewertung der Coping-Effektivität vor?",
@@ -96,7 +96,7 @@ const questions = [
     "c": "Die Anzahl der gleichzeitig angewandten Strategien.",
     "d": "Die finanzielle Entschädigung für den Stressor.",
     "richtig": "b",
-    "begruendung": "Eines der acht Kriterien ist die Steigerung des Wohlbefindens des Individuums und seines Umfelds [9]."
+    "begruendung": "Eines der acht Kriterien ist die Steigerung des Wohlbefindens des Individuums und seines Umfelds."
   },
   {
     "frage": "Welches physiologische Maß wird zur Beurteilung von effektivem Coping herangezogen?",
@@ -105,7 +105,7 @@ const questions = [
     "c": "Die Erhöhung der Körpertemperatur auf über 39 Grad.",
     "d": "Die Geschwindigkeit des Haarwachstums.",
     "richtig": "b",
-    "begruendung": "Eine funktionale Bewältigung sollte die körperliche Stressantwort messbar reduzieren [10]."
+    "begruendung": "Eine funktionale Bewältigung sollte die körperliche Stressantwort messbar reduzieren."
   },
   {
     "frage": "Was bedeutet „Wiederherstellung sozialer Funktionsfähigkeit“ als Coping-Kriterium?",
@@ -114,7 +114,7 @@ const questions = [
     "c": "Dass die Person alle alten Freunde durch neue ersetzt.",
     "d": "Dass die Person eine Führungsposition in der Community übernimmt.",
     "richtig": "b",
-    "begruendung": "Es geht um die Rückkehr zu normativ definierten Beziehungen und Aufgaben [10]."
+    "begruendung": "Es geht um die Rückkehr zu normativ definierten Beziehungen und Aufgaben."
   },
   {
     "frage": "Warum ist die Berücksichtigung der sozialen Dimension laut Community Psychology wichtig?",
@@ -123,7 +123,7 @@ const questions = [
     "c": "Damit man anderen die Schuld am eigenen Stress geben kann.",
     "d": "Weil soziale Kontakte die einzige Ressource für Coping darstellen.",
     "richtig": "b",
-    "begruendung": "Das Wohlbefinden des unmittelbaren Umfelds ist Teil eines ganzheitlichen Gesundheitsbegriffs [9]."
+    "begruendung": "Das Wohlbefinden des unmittelbaren Umfelds ist Teil eines ganzheitlichen Gesundheitsbegriffs."
   },
   {
     "frage": "In der Studie zu HIV-Infizierten (Baumgartner, 2007) zeigte sich, dass...",
@@ -132,7 +132,7 @@ const questions = [
     "c": "Drogenmissbrauch eine funktionale Strategie zur Langzeitbewältigung ist.",
     "d": "Soziale Faktoren keinen Einfluss auf den Krankheitsverlauf haben.",
     "richtig": "b",
-    "begruendung": "Bei chronischen, unheilbaren Stressoren kann Emotionsfokussierung hilfreicher sein als reiner Problemfokus [11]."
+    "begruendung": "Bei chronischen, unheilbaren Stressoren kann Emotionsfokussierung hilfreicher sein als reiner Problemfokus."
   },
   {
     "frage": "Wie wird „Familie“ im Grundgesetz (Art. 6) der BRD behandelt?",
@@ -141,7 +141,7 @@ const questions = [
     "c": "Familie wird als veraltetes Konstrukt definiert.",
     "d": "Nur Familien mit mindestens drei Kindern werden geschützt.",
     "richtig": "b",
-    "begruendung": "Das Grundgesetz schützt sie prominent, definiert sie aber nicht präzise [12]."
+    "begruendung": "Das Grundgesetz schützt sie prominent, definiert sie aber nicht präzise."
   },
   {
     "frage": "Wie definiert Schneewind (2009) Familien aus psychologischer Sicht?",
@@ -150,7 +150,7 @@ const questions = [
     "c": "Ausschließlich als Kleinfamilie (Vater, Mutter, Kind).",
     "d": "Als ökonomische Zweckbündnisse zur Ressourcenteilung.",
     "richtig": "b",
-    "begruendung": "Zentral sind die Intimität der Beziehungen und die Mehrgenerationalität [13]."
+    "begruendung": "Zentral sind die Intimität der Beziehungen und die Mehrgenerationalität."
   },
   {
     "frage": "Was beschreibt das systemische Merkmal der „Selbstorganisation“ in Familien?",
@@ -159,7 +159,7 @@ const questions = [
     "c": "Dass jedes Familienmitglied völlig unabhängig von den anderen handelt.",
     "d": "Dass der Staat die interne Struktur der Familie vorgibt.",
     "richtig": "b",
-    "begruendung": "Familien können sich an veränderte Bedingungen (z. B. Krisen) aktiv anpassen [14]."
+    "begruendung": "Familien können sich an veränderte Bedingungen (z. B. Krisen) aktiv anpassen."
   },
   {
     "frage": "Was ist der Unterschied zwischen Familienstress und einem Familienstressor?",
@@ -168,7 +168,7 @@ const questions = [
     "c": "Stress ist immer positiv, Stressoren sind immer negativ.",
     "d": "Ein Stressor betrifft nur Individuen, Stress betrifft nur die Community.",
     "richtig": "b",
-    "begruendung": "Stressoren sind Einwirkungen mit Veränderungspotenzial; Stress ist der Zustand der Spannung im System [14]."
+    "begruendung": "Stressoren sind Einwirkungen mit Veränderungspotenzial; Stress ist der Zustand der Spannung im System."
   },
   {
     "frage": "Ein Familienmitglied erkrankt chronisch. Welches Klassifikationskriterium für Stressoren ist hier primär betroffen?",
@@ -177,7 +177,7 @@ const questions = [
     "c": "Naturgegebenheit.",
     "d": "Geringe Intensität.",
     "richtig": "b",
-    "begruendung": "Da die Ursache innerhalb der Familie liegt, handelt es sich um einen internen Stressor [14]."
+    "begruendung": "Da die Ursache innerhalb der Familie liegt, handelt es sich um einen internen Stressor."
   },
   {
     "frage": "Welcher Stressor wirkt auf die „Gesamtstichprobe“ der Familie (Verbreitung)?",
@@ -186,7 +186,7 @@ const questions = [
     "c": "Ein schlechtes Zeugnis eines Kindes.",
     "d": "Ein individuelles Hobby eines Elternteils.",
     "richtig": "b",
-    "begruendung": "Der Tod eines Elternteils betrifft das gesamte Familiensystem grundlegend [14]."
+    "begruendung": "Der Tod eines Elternteils betrifft das gesamte Familiensystem grundlegend."
   },
   {
     "frage": "Ein plötzlicher Arbeitsplatzverlust ist ein Beispiel für welches Merkmal?",
@@ -195,7 +195,7 @@ const questions = [
     "c": "Hohe Vorhersehbarkeit.",
     "d": "Interner Ursprung.",
     "richtig": "b",
-    "begruendung": "Ereignisse wie Entlassungen treten meist plötzlich ein [14]."
+    "begruendung": "Ereignisse wie Entlassungen treten meist plötzlich ein."
   },
   {
     "frage": "Was unterscheidet normative von non-normativen Stressoren?",
@@ -204,7 +204,7 @@ const questions = [
     "c": "Non-normative Stressoren sind für alle Familien gleich.",
     "d": "Normative Stressoren führen nie zu Stress.",
     "richtig": "b",
-    "begruendung": "Normativ bezieht sich auf typische Übergänge im Lebenslauf [15]."
+    "begruendung": "Normativ bezieht sich auf typische Übergänge im Lebenslauf."
   },
   {
     "frage": "Auf welchen drei Dimensionen basiert das Circumplex-Modell von Olson?",
@@ -213,7 +213,7 @@ const questions = [
     "c": "Macht, Liebe, Konflikt.",
     "d": "Erziehung, Gene, Umwelt.",
     "richtig": "b",
-    "begruendung": "Diese drei Variablen charakterisieren das Zusammenleben laut Olson [16]."
+    "begruendung": "Diese drei Variablen charakterisieren das Zusammenleben laut Olson."
   },
   {
     "frage": "Was versteht Olson unter „Familienkohäsion“?",
@@ -222,7 +222,7 @@ const questions = [
     "c": "Die Anzahl der gemeinsamen Quadratmeter Wohnfläche.",
     "d": "Die rein finanzielle Abhängigkeit der Kinder von den Eltern.",
     "richtig": "b",
-    "begruendung": "Es geht um emotionale Nähe und Verbundenheit [16]."
+    "begruendung": "Es geht um emotionale Nähe und Verbundenheit."
   },
   {
     "frage": "Welche Ausprägung der Adaptabilität gilt im Circumplex-Modell als „balanciert“ (optimal)?",
@@ -231,7 +231,7 @@ const questions = [
     "c": "Strukturiert oder flexibel (moderate Ausprägung).",
     "d": "Emotional verstrickt.",
     "richtig": "c",
-    "begruendung": "Mittlere Werte auf den Dimensionen gelten als funktional für die Stressbewältigung [18]."
+    "begruendung": "Mittlere Werte auf den Dimensionen gelten als funktional für die Stressbewältigung."
   },
   {
     "frage": "Eine Familie, die durch „extreme Nähe und mangelnde Freiräume“ charakterisiert ist, befindet sich auf der Kohäsionsdimension im Bereich...",
@@ -240,7 +240,7 @@ const questions = [
     "c": "Verbunden (connected).",
     "d": "Verstrickt (enmeshed).",
     "richtig": "d",
-    "begruendung": "„Verstrickt“ (enmeshed) bedeutet eine übermäßig hohe Kohäsion, die Individualität einschränkt [19]."
+    "begruendung": "„Verstrickt“ (enmeshed) bedeutet eine übermäßig hohe Kohäsion, die Individualität einschränkt."
   },
   {
     "frage": "Was kennzeichnet eine „chaotische“ Adaptabilität?",
@@ -249,7 +249,7 @@ const questions = [
     "c": "Autoritäre Führung durch ein Familienoberhaupt.",
     "d": "Gelegentliche Anpassung von Regeln bei Bedarf.",
     "richtig": "b",
-    "begruendung": "Chaotische Systeme haben keine klare Struktur und sind unberechenbar [19]."
+    "begruendung": "Chaotische Systeme haben keine klare Struktur und sind unberechenbar."
   },
   {
     "frage": "Welche Rolle spielt die „Kommunikation“ im Modell von Olson?",
@@ -258,7 +258,7 @@ const questions = [
     "c": "Sie ist nur für Familien mit hohem Bildungsstand relevant.",
     "d": "Sie ersetzt die Dimension der Adaptabilität vollständig.",
     "richtig": "b",
-    "begruendung": "Gute Kommunikation hilft der Familie, sich auf den anderen Dimensionen zu bewegen [17]."
+    "begruendung": "Gute Kommunikation hilft der Familie, sich auf den anderen Dimensionen zu bewegen."
   },
   {
     "frage": "Ein „rigides“ Familiensystem zeichnet sich aus durch...",
@@ -267,7 +267,7 @@ const questions = [
     "c": "Zu viel Veränderung bei geringem Anlass.",
     "d": "Hohe emotionale Wärme.",
     "richtig": "b",
-    "begruendung": "Rigide Systeme halten starr an Regeln fest und lassen kaum Veränderungen zu [19]."
+    "begruendung": "Rigide Systeme halten starr an Regeln fest und lassen kaum Veränderungen zu."
   },
   {
     "frage": "Was versteht Putnam (2000) unter „sozialem Kapital“?",
@@ -276,7 +276,7 @@ const questions = [
     "c": "Den Besitz von Immobilien innerhalb einer Nachbarschaft.",
     "d": "Die Anzahl der Polizisten in einem Viertel.",
     "richtig": "b",
-    "begruendung": "Soziales Kapital bezieht sich auf die Verbindung zwischen Individuen und deren kollektiven Nutzen [20]."
+    "begruendung": "Soziales Kapital bezieht sich auf die Verbindung zwischen Individuen und deren kollektiven Nutzen."
   },
   {
     "frage": "Wann neigen Menschen laut dem Text stärker dazu, sich über ihre ethnische Zugehörigkeit zu definieren?",
@@ -285,7 +285,7 @@ const questions = [
     "c": "Wenn das Thema der Diskussion völlig neutral ist (z. B. Wetter).",
     "d": "Wenn sie keine sozialen Kontakte haben.",
     "richtig": "a",
-    "begruendung": "Situationale Faktoren und die Minderheitenposition erhöhen die Salienz der Identität [21]."
+    "begruendung": "Situationale Faktoren und die Minderheitenposition erhöhen die Salienz der Identität."
   },
   {
     "frage": "Kollektive Identifikation kann als Copingstrategie dienen, weil sie...",
@@ -294,7 +294,7 @@ const questions = [
     "c": "...jegliche Form von Stress sofort beendet.",
     "d": "...die Notwendigkeit individueller Anstrengung ersetzt.",
     "richtig": "b",
-    "begruendung": "Die Gruppe bietet Schutz und geteilte Ressourcen zur Stressbewältigung [21]."
+    "begruendung": "Die Gruppe bietet Schutz und geteilte Ressourcen zur Stressbewältigung."
   },
   {
     "frage": "Welche Ebene der Stressprävention zielt auf den „Aufbau von community-basierten Angeboten“ ab?",
@@ -303,7 +303,7 @@ const questions = [
     "c": "Community-Ebene.",
     "d": "Biologische Ebene.",
     "richtig": "c",
-    "begruendung": "Dies ist eine strukturelle Maßnahme im sozialen Umfeld [20]."
+    "begruendung": "Dies ist eine strukturelle Maßnahme im sozialen Umfeld."
   },
   {
     "frage": "Was beschreibt das Prinzip der „Reziprozität“ im Kontext des sozialen Kapitals?",
@@ -361,101 +361,101 @@ const questions = [
   },
   {
     "frage": "Was unterscheidet psychologischen Stress laut der kognitiv-transaktionalen Theorie grundlegend von früheren Ansätzen?",
-    "a": "Stress wird primär als physiologischer Output (z. B. Adrenalinausschüttung) definiert [1, 2].",
-    "b": "Stress wird ausschließlich als objektiver Umweltreiz (Stressor) verstanden [1].",
-    "c": "Stress ist das Ergebnis einer subjektiven Einschätzung der Anforderungs-Bewältigungs-Beziehung [2, 3].",
-    "d": "Es wird nicht mehr zwischen Eustress und Distress unterschieden [2, 4].",
+    "a": "Stress wird primär als physiologischer Output (z. B. Adrenalinausschüttung) definiert.",
+    "b": "Stress wird ausschließlich als objektiver Umweltreiz (Stressor) verstanden.",
+    "c": "Stress ist das Ergebnis einer subjektiven Einschätzung der Anforderungs-Bewältigungs-Beziehung.",
+    "d": "Es wird nicht mehr zwischen Eustress und Distress unterschieden.",
     "richtig": "c",
-    "begruendung": "Stress ist hier ein „transaktionales Geschehen“, das erst durch die kognitive Bewertung der Person entsteht [1, 2]."
+    "begruendung": "Stress ist hier ein „transaktionales Geschehen“, das erst durch die kognitive Bewertung der Person entsteht."
   },
   {
     "frage": "In welcher Phase der kognitiven Bewertung wird geprüft, ob eine Situation eine Bedrohung oder eine Herausforderung darstellt?",
-    "a": "Secondary Appraisal [5].",
-    "b": "Reappraisal [6].",
-    "c": "Primary Appraisal [2, 7].",
-    "d": "Coping-Analyse [8].",
+    "a": "Secondary Appraisal.",
+    "b": "Reappraisal.",
+    "c": "Primary Appraisal.",
+    "d": "Coping-Analyse.",
     "richtig": "c",
-    "begruendung": "Das Primary Appraisal bewertet die Bedeutung eines Ereignisses für das Wohlergehen (günstig, irrelevant, schädlich/Bedrohung/Herausforderung) [2, 7]."
+    "begruendung": "Das Primary Appraisal bewertet die Bedeutung eines Ereignisses für das Wohlergehen (günstig, irrelevant, schädlich/Bedrohung/Herausforderung)."
   },
   {
     "frage": "Ein Student denkt vor einer Klausur: „Ich habe nicht genug Zeit zum Lernen und keine guten Zusammenfassungen.“ Welcher Prozess findet hier statt?",
-    "a": "Primary Appraisal [7].",
-    "b": "Secondary Appraisal [5].",
-    "c": "Emotionsfokussiertes Coping [9].",
-    "d": "Dispositioneller Optimismus [10].",
+    "a": "Primary Appraisal.",
+    "b": "Secondary Appraisal.",
+    "c": "Emotionsfokussiertes Coping.",
+    "d": "Dispositioneller Optimismus.",
     "richtig": "b",
-    "begruendung": "Das Secondary Appraisal beurteilt die Verfügbarkeit von Bewältigungsmöglichkeiten und Ressourcen (Zeit, Material, Kompetenz) [5]."
+    "begruendung": "Das Secondary Appraisal beurteilt die Verfügbarkeit von Bewältigungsmöglichkeiten und Ressourcen (Zeit, Material, Kompetenz)."
   },
   {
     "frage": "Was charakterisiert eine „Herausforderung“ (Challenge) im Gegensatz zur „Bedrohung“ (Threat)?",
-    "a": "Die Herausforderung ist objektiv immer leichter zu bewältigen [2].",
-    "b": "Die Herausforderung ist bereits abgeschlossen (Schaden/Verlust) [7].",
-    "c": "Die Herausforderung ermöglicht im Falle der Bewältigung positive Emotionen und Erfolgserlebnisse [2].",
-    "d": "Bei einer Herausforderung ist kein Secondary Appraisal mehr nötig [5].",
+    "a": "Die Herausforderung ist objektiv immer leichter zu bewältigen.",
+    "b": "Die Herausforderung ist bereits abgeschlossen (Schaden/Verlust).",
+    "c": "Die Herausforderung ermöglicht im Falle der Bewältigung positive Emotionen und Erfolgserlebnisse.",
+    "d": "Bei einer Herausforderung ist kein Secondary Appraisal mehr nötig.",
     "richtig": "c",
-    "begruendung": "Herausforderungen sind positiv besetzt, da sie Entwicklungspotenzial bieten [2]."
+    "begruendung": "Herausforderungen sind positiv besetzt, da sie Entwicklungspotenzial bieten."
   },
   {
     "frage": "Wann findet laut Lazarus und Folkman ein „Reappraisal“ statt?",
-    "a": "Bevor das Ereignis überhaupt eingetreten ist [7].",
-    "b": "Wenn neue Informationen über die Anforderungs-Bewältigungs-Beziehung vorliegen [6].",
-    "c": "Ausschließlich nach einem totalen Scheitern der Bewältigung [6].",
-    "d": "Nur wenn soziale Unterstützung von außen hinzukommt [5].",
+    "a": "Bevor das Ereignis überhaupt eingetreten ist.",
+    "b": "Wenn neue Informationen über die Anforderungs-Bewältigungs-Beziehung vorliegen.",
+    "c": "Ausschließlich nach einem totalen Scheitern der Bewältigung.",
+    "d": "Nur wenn soziale Unterstützung von außen hinzukommt.",
     "richtig": "b",
-    "begruendung": "Die Einschätzung wird dynamisch angepasst, wenn sich die Situation oder das Wissen darüber ändert [6]."
+    "begruendung": "Die Einschätzung wird dynamisch angepasst, wenn sich die Situation oder das Wissen darüber ändert."
   },
   {
     "frage": "Welches Item stammt am wahrscheinlichsten aus dem „Life Orientation Test“ (LOT) zur Messung des dispositionellen Optimismus?",
-    "a": "„Ich habe meine Gefühle unter Kontrolle.“ [11]",
-    "b": "„In unsicheren Zeiten erwarte ich gewöhnlich das Beste.“ [10]",
-    "c": "„Ich bin für mein Schicksal selbst verantwortlich.“ [12]",
-    "d": "„Mein Leben ist sinnvoll und erklärbar.“ [13]",
+    "a": "„Ich habe meine Gefühle unter Kontrolle.",
+    "b": "„In unsicheren Zeiten erwarte ich gewöhnlich das Beste.",
+    "c": "„Ich bin für mein Schicksal selbst verantwortlich.",
+    "d": "„Mein Leben ist sinnvoll und erklärbar.",
     "richtig": "b",
-    "begruendung": "Der LOT misst die generalisierte Erwartung positiver Ereignisse [10]."
+    "begruendung": "Der LOT misst die generalisierte Erwartung positiver Ereignisse."
   },
   {
     "frage": "Wie unterscheiden sich internale Kontrollüberzeugung und Selbstwirksamkeitserwartung?",
-    "a": "Es gibt keinen Unterschied; beide Begriffe sind synonym [14, 15].",
-    "b": "Kontrollüberzeugung bezieht sich auf das Ergebnis („ich habe Einfluss“), Selbstwirksamkeit auf die eigene Kompetenz („ich kann das“) [12, 15].",
-    "c": "Selbstwirksamkeit ist immer external, Kontrollüberzeugung immer internal [12, 15].",
-    "d": "Kontrollüberzeugungen sind stabil, Selbstwirksamkeit ist rein situativ [14, 15].",
+    "a": "Es gibt keinen Unterschied; beide Begriffe sind synonym.",
+    "b": "Kontrollüberzeugung bezieht sich auf das Ergebnis („ich habe Einfluss“), Selbstwirksamkeit auf die eigene Kompetenz („ich kann das“).",
+    "c": "Selbstwirksamkeit ist immer external, Kontrollüberzeugung immer internal.",
+    "d": "Kontrollüberzeugungen sind stabil, Selbstwirksamkeit ist rein situativ.",
     "richtig": "b",
-    "begruendung": "Der Fokus verschiebt sich von der Kausalattribution (Kontrolle) zur Einschätzung der Handlungskompetenz (Selbstwirksamkeit) [15]."
+    "begruendung": "Der Fokus verschiebt sich von der Kausalattribution (Kontrolle) zur Einschätzung der Handlungskompetenz (Selbstwirksamkeit)."
   },
   {
     "frage": "Jemand glaubt, dass seine Gesundheit allein vom „Zufall“ oder „Schicksal“ abhängt. Dies ist eine...",
-    "a": "internal-soziale Kontrollüberzeugung [12].",
-    "b": "external-fatale Kontrollüberzeugung [16].",
-    "c": "external-soziale Kontrollüberzeugung [16].",
-    "d": "niedrige Selbstwirksamkeitserwartung [15].",
+    "a": "internal-soziale Kontrollüberzeugung.",
+    "b": "external-fatale Kontrollüberzeugung.",
+    "c": "external-soziale Kontrollüberzeugung.",
+    "d": "niedrige Selbstwirksamkeitserwartung.",
     "richtig": "b",
-    "begruendung": "Externale Überzeugungen werden unterteilt in „Macht anderer“ (sozial) oder „unpersönliche Faktoren“ wie Schicksal (fatal) [16]."
+    "begruendung": "Externale Überzeugungen werden unterteilt in „Macht anderer“ (sozial) oder „unpersönliche Faktoren“ wie Schicksal (fatal)."
   },
   {
     "frage": "Welche Komponente gehört NICHT zur „Hardiness“ nach Kobasa?",
-    "a": "Commitment (Engagement) [17, 18].",
-    "b": "Control (Kontrolle) [17].",
-    "c": "Challenge (Herausforderung) [17, 18].",
-    "d": "Coherence (Kohärenz) [13, 17].",
+    "a": "Commitment (Engagement).",
+    "b": "Control (Kontrolle).",
+    "c": "Challenge (Herausforderung).",
+    "d": "Coherence (Kohärenz).",
     "richtig": "d",
-    "begruendung": "Die „3 Cs“ sind Engagement, Kontrolle und Herausforderung. Kohärenz ist ein eigenständiges Modell von Antonovsky [13, 17]."
+    "begruendung": "Die „3 Cs“ sind Engagement, Kontrolle und Herausforderung. Kohärenz ist ein eigenständiges Modell von Antonovsky."
   },
   {
     "frage": "Was versteht man unter „Reziprozität“ in einem sozialen Netzwerk?",
-    "a": "Die Einseitigkeit der Hilfeleistung [30].",
-    "b": "Das Prinzip der Gegenseitigkeit des Austauschs [30].",
-    "c": "Die räumliche Nähe der Netzwerkmitglieder [21].",
-    "d": "Die rechtliche Verpflichtung zur Hilfe [36].",
+    "a": "Die Einseitigkeit der Hilfeleistung.",
+    "b": "Das Prinzip der Gegenseitigkeit des Austauschs.",
+    "c": "Die räumliche Nähe der Netzwerkmitglieder.",
+    "d": "Die rechtliche Verpflichtung zur Hilfe.",
     "richtig": "b",
-    "begruendung": "Ein stabiles Netzwerk basiert auf dem Geben und Nehmen [30]."
+    "begruendung": "Ein stabiles Netzwerk basiert auf dem Geben und Nehmen."
   },
   {
     "frage": "Eine Person sagt: „Ich habe aufgegeben, zu erreichen, was ich möchte.“ Welcher Coping-Subskala des „Way of Coping Questionnaire“ entspricht dies?",
-    "a": "Distanzierung [11].",
-    "b": "Flucht/Vermeidung [11].",
-    "c": "Resignation (ähnlich wie in der HIV-Studie beschrieben) [25].",
-    "d": "Anerkennung von Verantwortlichkeit [11].",
+    "a": "Distanzierung.",
+    "b": "Flucht/Vermeidung.",
+    "c": "Resignation (ähnlich wie in der HIV-Studie beschrieben).",
+    "d": "Anerkennung von Verantwortlichkeit.",
     "richtig": "c",
-    "begruendung": "Resignation ist eine passive, oft dysfunktionale Form der Bewältigung [25]."
+    "begruendung": "Resignation ist eine passive, oft dysfunktionale Form der Bewältigung."
   }
 ];

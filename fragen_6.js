@@ -2,110 +2,110 @@ const questions = [
   {
     "frage": "Was ist laut Studienbrief ein wesentliches Merkmal community-psychologischer Forschung und Anwendung?",
     "a": "Die strikte räumliche Trennung von Forschenden und Beforschten.",
-    "b": "Die partizipationsorientierte Anlage von Forschung und Intervention. [1]",
+    "b": "Die partizipationsorientierte Anlage von Forschung und Intervention.",
     "c": "Die ausschließliche Nutzung von Laborexperimenten zur Kausalitätsprüfung.",
     "d": "Die Priorisierung der universitären Verwertbarkeit vor dem Nutzen für die Community.",
     "richtig": "b",
-    "begruendung": "CP-Forschung definiert sich über die Einbeziehung der Betroffenen in den Prozess. [1, 2]"
+    "begruendung": "CP-Forschung definiert sich über die Einbeziehung der Betroffenen in den Prozess."
   },
   {
     "frage": "Mit welcher Frage sollten sich Community-Psycholog*innen laut SB NICHT zwingend vor Projektbeginn auseinandersetzen?",
-    "a": "Dem persönlichen Wissenschaftsverständnis. [3]",
-    "b": "Den Wegen der Beteiligung von Community-Mitgliedern. [3]",
-    "c": "Der Berücksichtigung kultureller Aspekte. [3]",
+    "a": "Dem persönlichen Wissenschaftsverständnis.",
+    "b": "Den Wegen der Beteiligung von Community-Mitgliedern.",
+    "c": "Der Berücksichtigung kultureller Aspekte.",
     "d": "Der Maximierung der statistischen Effektstärke zulasten der ökologischen Validität.",
     "richtig": "d",
-    "begruendung": "Die vier Bereiche sind: Wissenschaftsverständnis, Beteiligung, Kultur und Analyseebene. [2, 3]"
+    "begruendung": "Die vier Bereiche sind: Wissenschaftsverständnis, Beteiligung, Kultur und Analyseebene."
   },
   {
     "frage": "Welches methodische Vorgehen wird für eine konstruktivistisch orientierte CP-Forschung bevorzugt eingesetzt?",
-    "a": "Qualitative Methoden wie Tiefeninterviews oder Exploration subjektiver Theorien. [4]",
+    "a": "Qualitative Methoden wie Tiefeninterviews oder Exploration subjektiver Theorien.",
     "b": "Standardisierte Fragebögen mit rein dichotomen Antwortformaten.",
     "c": "Doppelblindstudien in einem hochkontrollierten Laborsetting.",
     "d": "Mathematische Simulationen ohne Kontakt zur realen Community.",
     "richtig": "a",
-    "begruendung": "Konstruktivismus betont den Kontext und die subjektive Sicht, was qualitative Methoden erfordert. [4]"
+    "begruendung": "Konstruktivismus betont den Kontext und die subjektive Sicht, was qualitative Methoden erfordert."
   },
   {
     "frage": "Was ist eine Kernkomponente von Vertrauen nach Boon und Holmes (1991)?",
     "a": "Die vollständige finanzielle Absicherung aller Beteiligten.",
     "b": "Das Vorliegen einer jahrelangen privaten Freundschaft vor Projektbeginn.",
-    "c": "Die Erwartung, dass das Gegenüber die eigene Verletzlichkeit nicht ausnutzt. [6]",
+    "c": "Die Erwartung, dass das Gegenüber die eigene Verletzlichkeit nicht ausnutzt.",
     "d": "Die schriftliche Zusicherung, dass keine kritischen Ergebnisse veröffentlicht werden.",
     "richtig": "c",
-    "begruendung": "Vertrauen basiert auf der Erwartung wohlwollenden Verhaltens in einer Abhängigkeitsbeziehung. [6]"
+    "begruendung": "Vertrauen basiert auf der Erwartung wohlwollenden Verhaltens in einer Abhängigkeitsbeziehung."
   },
   {
     "frage": "Welche interpersonale Voraussetzung ist laut Colquitt et al. (2007) entscheidend für die wahrgenommene Vertrauenswürdigkeit?",
     "a": "Ein hoher akademischer Titel und eine renommierte Universität.",
-    "b": "Wohlwollen, Verlässlichkeit und moralische Integrität. [6, 7]",
+    "b": "Wohlwollen, Verlässlichkeit und moralische Integrität.",
     "c": "Die Fähigkeit, komplexe Fachbegriffe fehlerfrei anzuwenden.",
     "d": "Ein distanziertes und rein sachliches Auftreten.",
     "richtig": "b",
-    "begruendung": "Kompetenz allein reicht nicht; Integrität und Wohlwollen sind entscheidend. [6, 7]"
+    "begruendung": "Kompetenz allein reicht nicht; Integrität und Wohlwollen sind entscheidend."
   },
   {
     "frage": "Wann ist der Aufbau von Vertrauen laut Studienbrief ein besonders zentrales Thema?",
     "a": "Wenn die Forschenden selbst Mitglieder der Community sind.",
     "b": "Wenn das Projekt bereits seit vielen Jahren erfolgreich läuft.",
     "c": "Wenn ausschließlich anonyme Online-Umfragen durchgeführt werden.",
-    "d": "Wenn die Forschenden von „Außen“ kommen und keine Vorbeziehungen haben. [7]",
+    "d": "Wenn die Forschenden von „Außen“ kommen und keine Vorbeziehungen haben.",
     "richtig": "d",
-    "begruendung": "Fehlende Interaktionserfahrung macht Vertrauen zur kritischen Anfangsphase. [7]"
+    "begruendung": "Fehlende Interaktionserfahrung macht Vertrauen zur kritischen Anfangsphase."
   },
   {
     "frage": "Welcher Aspekt beschreibt einen Teil der „psychopolitischen Validität“?",
-    "a": "Die Berücksichtigung des Einflusses von Faktoren auf der Makrosystemebene. [8]",
+    "a": "Die Berücksichtigung des Einflusses von Faktoren auf der Makrosystemebene.",
     "b": "Die rein statistische Signifikanz politischer Meinungsbilder.",
     "c": "Dass Ergebnisse nur in regierungsnahen Zeitungen veröffentlicht werden.",
     "d": "Die Verpflichtung der Community, ihre politische Einstellung anzupassen.",
     "richtig": "a",
-    "begruendung": "Psychopolitische Validität prüft Machtverhältnisse und Makrofaktoren. [8]"
+    "begruendung": "Psychopolitische Validität prüft Machtverhältnisse und Makrofaktoren."
   },
   {
     "frage": "Welches Ziel verfolgt die Kommunikation von Forschungsergebnissen im Sinne der psychopolitischen Validität?",
     "a": "Viele Zitationen in Fachjournalen.",
     "b": "Stärkere politische Kontrolle der Community.",
-    "c": "Dass Mitglieder der Community Makrofaktoren und deren Einfluss besser verstehen. [9]",
+    "c": "Dass Mitglieder der Community Makrofaktoren und deren Einfluss besser verstehen.",
     "d": "Geheimhaltung der Daten bis zum Projektende.",
     "richtig": "c",
-    "begruendung": "Forschung soll Menschen befähigen, ihre Lebensbedingungen zu verstehen und zu gestalten. [9]"
+    "begruendung": "Forschung soll Menschen befähigen, ihre Lebensbedingungen zu verstehen und zu gestalten."
   },
   {
     "frage": "Welches Problem kann bei der Messung von kultureller Identität in Fragebögen die Validität gefährden?",
     "a": "Zu viel Alltagssprache.",
     "b": "Mehrsprachigkeit der Teilnehmenden.",
     "c": "Einbeziehung von Identifikation statt Kategorisierung.",
-    "d": "Die ausschließliche Verwendung dichotomer Kategorien (z. B. nur „deutsch“ ODER „türkisch“). [10]",
+    "d": "Die ausschließliche Verwendung dichotomer Kategorien (z. B. nur „deutsch“ ODER „türkisch“).",
     "richtig": "d",
-    "begruendung": "Dichotome Kategorien ignorieren komplexe und duale Identitäten. [10]"
+    "begruendung": "Dichotome Kategorien ignorieren komplexe und duale Identitäten."
   },
   {
     "frage": "Was sollte bei der Planung forschungsökonomischer Fragen laut Studienbrief geklärt werden?",
     "a": "Wie man Community-Mitglieder zu unbezahlter Arbeit verpflichtet.",
-    "b": "Die materiellen, finanziellen und personellen Ressourcen sowie Zeitperspektiven. [2]",
+    "b": "Die materiellen, finanziellen und personellen Ressourcen sowie Zeitperspektiven.",
     "c": "Open-Access-Gebühren.",
     "d": "Kommerzialisierung der Ergebnisse.",
     "richtig": "b",
-    "begruendung": "Realistische Ressourcenplanung ist Voraussetzung für den Projekterfolg. [2]"
+    "begruendung": "Realistische Ressourcenplanung ist Voraussetzung für den Projekterfolg."
   },
   {
     "frage": "Warum ist die kritische Reflexion des persönlichen Wissenschaftsverständnisses erforderlich?",
-    "a": "Um die Stärken und Schwächen des wissenschaftlichen Vorgehens einschätzen zu können. [12]",
+    "a": "Um die Stärken und Schwächen des wissenschaftlichen Vorgehens einschätzen zu können.",
     "b": "Um qualitative Methoden zu vermeiden.",
     "c": "Um die Community von der Überlegenheit der Wissenschaft zu überzeugen.",
     "d": "Um ethische Bedenken juristisch auszuschließen.",
     "richtig": "a",
-    "begruendung": "Reflexion prüft die Angemessenheit der Methoden für die Fragestellung. [12]"
+    "begruendung": "Reflexion prüft die Angemessenheit der Methoden für die Fragestellung."
   },
   {
     "frage": "Womit beginnt partizipative Forschung und Anwendung laut der Zusammenfassung in Kapitel 6?",
     "a": "Mit der Auswertung vorhandener Sekundärdaten.",
     "b": "Mit komplexen Mixed-Methods-Designs.",
-    "c": "Mit dem Aufbau einer tragfähigen Beziehung zur Community. [12]",
+    "c": "Mit dem Aufbau einer tragfähigen Beziehung zur Community.",
     "d": "Mit sofortiger Intervention.",
     "richtig": "c",
-    "begruendung": "Ohne Beziehung keine Partizipation. [12]"
+    "begruendung": "Ohne Beziehung keine Partizipation."
   },
   {
     "frage": "Welche Rolle spielen informelle Kontakte (z. B. gemeinsames Essen) laut CP-Ansatz?",
@@ -177,7 +177,7 @@ const questions = [
     "c": "Die Annahme, alle Mitglieder einer Community seien gleich.",
     "d": "Nur Einzelfallforschung.",
     "richtig": "c",
-    "begruendung": "Diversität innerhalb von Communities wird unterschätzt. [11]"
+    "begruendung": "Diversität innerhalb von Communities wird unterschätzt."
   },
   {
     "frage": "Was bedeutet „idiomatisch angemessene Übersetzung“ bei der sprachlichen Adaptation?",
@@ -366,7 +366,7 @@ const questions = [
     "c": "Durch den ausschließlichen Einsatz von Tiefeninterviews ohne statistische Auswertung.",
     "d": "Objektivität wird im Postpositivismus als unerreichbar und daher irrelevant abgelehnt.",
     "richtig": "a",
-    "begruendung": "Da vollständige Neutralität unmöglich ist, wird Objektivität durch Transparenz, Regeln und kritische Intersubjektivität angestrebt [14]."
+    "begruendung": "Da vollständige Neutralität unmöglich ist, wird Objektivität durch Transparenz, Regeln und kritische Intersubjektivität angestrebt."
   },
   {
     "frage": "Welcher Effekt ist laut Studienbrief typisch für Majoritäten bei der Wahrnehmung von Minoritäten?",
@@ -375,6 +375,6 @@ const questions = [
     "c": "Sie ignorieren kulturelle Unterschiede vollständig (Farbenblindheit).",
     "d": "Sie passen ihre eigenen Normen sofort an die der Minorität an.",
     "richtig": "b",
-    "begruendung": "Majoritäten neigen dazu, die Fremdgruppe als homogener wahrzunehmen, was zur Fehleinschätzung von Communities führen kann [15, 16]."
+    "begruendung": "Majoritäten neigen dazu, die Fremdgruppe als homogener wahrzunehmen, was zur Fehleinschätzung von Communities führen kann."
   }
 ];
