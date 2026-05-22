@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jenny's AFC Quiz</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(120deg, #fbd3e9, #fdfbfb);
+      color: #6b2f4d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      width: 100%;
+      background: #fff0f5;
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(169, 74, 120, 0.2);
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #a94a78;
+    }
+
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.9rem;
+      border-radius: 12px;
+      border: 2px solid #d8a2b8;
+      background-color: #fdf0f5;
+      cursor: pointer;
+    }
+
+    .answers button.correct {
+      background-color: #c8e6c9;
+    }
+
+    .answers button.wrong {
+      background-color: #ffcdd2;
+    }
+
+    .next-btn {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      width: 100%;
+      background-color: #a94a78;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .next-btn:disabled {
+      background-color: #ccc;
+    }
+
+    .result {
+      font-weight: bold;
+      font-size: 1.4rem;
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      color: #a94a78;
+    }
+
+    .return-btn {
+      display: none; /* 🔥 wichtig */
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      background-color: #d87093;
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+    }
+
+    .return-btn:hover {
+      background-color: #b95675;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="quiz-container">
+    <div id="quiz"></div>
+    <button id="next-btn" class="next-btn" disabled>Weiter</button>
+
+    <div id="result" class="result"></div>
+
+    <a href="index.html" id="return-btn" class="return-btn">
+      Zurück zur Startseite
+    </a>
+  </div>
+
+  <script src="fragen_12.js"></script>
+
+  <script>
+    let currentQuestion = 0;
+    let score = 0;
+
+    const quizEl = document.getElementById("quiz");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+    const returnBtn = document.getElementById("return-btn");
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+
+      quizEl.innerHTML = `
+        <h2>${q.frage}</h2>
+        <div class="answers">
+          <button data-option="a">${q.a}</button>
+          <button data-option="b">${q.b}</button>
+          <button data-option="c">${q.c}</button>
+          <button data-option="d">${q.d}</button>
+        </div>
+      `;
+
+      document.querySelectorAll(".answers button").forEach(btn => {
+        btn.addEventListener("click", () =>
+          selectAnswer(btn, q.richtig)
+        );
+      });
+
+      nextBtn.disabled = true;
+    }
+
+    function selectAnswer(button, correct) {
+      const selected = button.getAttribute("data-option");
+
+      if (selected === correct) {
+        button.classList.add("correct");
+        score++;
+      } else {
+        button.classList.add("wrong");
+        document.querySelector(`[data-option="${correct}"]`)
+          .classList.add("correct");
+      }
+
+      document.querySelectorAll(".answers button").forEach(btn => {
+        btn.disabled = true;
+      });
+
+      nextBtn.disabled = false;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        quizEl.innerHTML = "";
+        nextBtn.style.display = "none";
+
+        resultEl.textContent =
+          `🎉 Du hast ${score} von ${questions.length} richtig!`;
+
+        returnBtn.style.display = "block"; // ✅ erscheint erst jetzt
+        resultEl.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+
+    showQuestion();
+  </script>
+
+</body>
+</html>
