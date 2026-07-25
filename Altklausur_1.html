@@ -677,131 +677,151 @@
     ];
 
     let currentQuestionIndex = 0;
-    let score = 0;
-    let isAnswerChecked = false;
+    let score = 0; // Das sind jetzt die gesammelten Punkte
+    let totalPossiblePoints = 0; // Hier summieren wir alle im Quiz möglichen Punkte auf
+    let userAnswers = {};
 
     function startQuiz() {
         currentQuestionIndex = 0;
         score = 0;
-        isAnswerChecked = false;
+        totalPossiblePoints = 0;
+        userAnswers = {};
+
+        // Berechne vorab die insgesamt erreichbaren Punkte im gesamten Quiz
+        questions.forEach((q, index) => {
+            const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+            totalPossiblePoints += correctArr.length;
+        });
+
         document.getElementById('startScreen').classList.remove('active');
         document.getElementById('quizScreen').classList.add('active');
         loadQuestion();
     }
 
     function loadQuestion() {
-        isAnswerChecked = false;
+        resetState();
         const q = questions[currentQuestionIndex];
+        
         document.getElementById('questionCounter').innerText = `Frage ${currentQuestionIndex + 1} / ${questions.length}`;
         document.getElementById('questionText').innerText = q.frage;
-        
-        const progress = (currentQuestionIndex / questions.length) * 100;
-        document.getElementById('progressFill').style.width = `${progress}%`;
 
         const optionsList = document.getElementById('optionsList');
-        optionsList.innerHTML = '';
-        
-        const explanationBox = document.getElementById('explanationBox');
-        explanationBox.classList.remove('show');
-        explanationBox.innerText = "";
+        const optionsKeys = ['a', 'b', 'c', 'd', 'e'];
 
-        const actionBtn = document.getElementById('actionBtn');
-        actionBtn.innerText = "Antworten prüfen";
-
-        ['a', 'b', 'c', 'd', 'e'].forEach(opt => {
-            if (q[opt]) {
-                const btn = document.createElement('div');
+        optionsKeys.forEach(key => {
+            if (q[key]) {
+                const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.dataset.option = opt;
-                btn.innerHTML = `<strong>${opt.toUpperCase()}:</strong> ${q[opt]}`;
-                btn.onclick = () => {
-                    if (!isAnswerChecked) {
-                        btn.classList.toggle('selected');
-                    }
-                };
+                btn.innerText = `${key.toUpperCase()}) ${q[key]}`;
+                btn.dataset.key = key;
+                btn.onclick = () => toggleOption(btn);
                 optionsList.appendChild(btn);
             }
         });
+
+        updateProgress();
+    }
+
+    function toggleOption(btn) {
+        if (btn.disabled) return;
+        btn.classList.toggle('selected');
+    }
+
+    function resetState() {
+        const optionsList = document.getElementById('optionsList');
+        optionsList.innerHTML = '';
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.classList.remove('show');
+        explanationBox.innerText = '';
+        const actionBtn = document.getElementById('actionBtn');
+        actionBtn.innerText = 'Antworten prüfen';
+        actionBtn.onclick = handleAction;
     }
 
     function handleAction() {
         const actionBtn = document.getElementById('actionBtn');
         const q = questions[currentQuestionIndex];
+        const selectedButtons = document.querySelectorAll('.option-btn.selected');
+        
+        if (selectedButtons.length === 0) {
+            alert('Bitte wähle mindestens eine Option aus.');
+            return;
+        }
 
-        if (!isAnswerChecked) {
-            // Schritt 1: Antworten überprüfen & Grün/Rot färben
-            isAnswerChecked = true;
-            
-            const selectedBtns = document.querySelectorAll('.option-btn.selected');
-            const selectedOpts = Array.from(selectedBtns).map(b => b.dataset.option).sort().join(',');
-            const correctOpts = q.richtig.replace(/\s/g, '').split(',').sort().join(',');
+        const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+        const optionButtons = document.querySelectorAll('.option-btn');
 
-            // Visuelles Feedback auf Buttons legen
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(btn => {
-                const opt = btn.dataset.option;
-                const isCorrect = correctOpts.includes(opt);
-                const isSelected = btn.classList.contains('selected');
+        // Buttons sperren und Auswertung anzeigen
+        optionButtons.forEach(btn => {
+            btn.disabled = true;
+            const key = btn.dataset.key;
+            const isSelected = btn.classList.contains('selected');
+            const isCorrect = correctArr.includes(key);
 
-                if (isCorrect) {
-                    btn.classList.add('correct-ans'); // Richtige Antwort wird grün markiert
-                } else if (isSelected && !isCorrect) {
-                    btn.classList.add('wrong-ans'); // Falsch ausgewählte wird rot markiert
+            if (isCorrect) {
+                btn.classList.add('correct-ans');
+                // Wenn richtig angekreuzt wurde, geben wir einen Punkt dazu
+                if (isSelected) {
+                    score += 1;
                 }
-            });
-
-            if (selectedOpts === correctOpts) {
-                score++;
-            }
-
-            // Begründung einblenden
-            const explanationBox = document.getElementById('explanationBox');
-            explanationBox.innerHTML = `<strong>Erklärung:</strong> ${q.begruendung}`;
-            explanationBox.classList.add('show');
-
-            // Button Text ändern für den nächsten Schritt
-            if (currentQuestionIndex < questions.length - 1) {
-                actionBtn.innerText = "Nächste Frage";
             } else {
-                actionBtn.innerText = "Zur Auswertung";
+                if (isSelected) {
+                    btn.classList.add('wrong-ans');
+                }
             }
+        });
 
+        // Begründung anzeigen
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.innerText = "Begründung: " + q.begruendung;
+        explanationBox.classList.add('show');
+
+        // Button-Text auf "Weiter" ändern
+        actionBtn.innerText = 'Nächste Frage';
+        actionBtn.onclick = nextQuestion;
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
         } else {
-            // Schritt 2: Zur nächsten Frage oder Auswertung springen
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
-            } else {
-                showResult();
-            }
+            showResults();
         }
     }
 
-    function showResult() {
+    function updateProgress() {
+        const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+    }
+
+    function showResults() {
         document.getElementById('quizScreen').classList.remove('active');
         document.getElementById('resultScreen').classList.add('active');
-        document.getElementById('progressFill').style.width = `100%`;
+        document.getElementById('progressFill').style.width = '100%';
 
-        const percentage = Math.round((score / questions.length) * 100);
+        // Prozentberechnung basierend auf den tatsächlich gesammelten Punkten vs. allen möglichen Punkten
+        const percentage = totalPossiblePoints > 0 ? Math.round((score / totalPossiblePoints) * 100) : 0;
+
         document.getElementById('resultScore').innerText = `${percentage}%`;
 
         const statusEl = document.getElementById('resultStatus');
         const detailsEl = document.getElementById('resultDetails');
 
         if (percentage >= 75) {
-            statusEl.innerText = "Super Mamtschg, du hast bestanden";
+            statusEl.innerText = "Bestanden!";
             statusEl.className = "result-status passed";
-            detailsEl.innerText = `Super gemacht! Du hast ${score} von ${questions.length} Fragen richtig beantwortet (${percentage}%). Damit hast du die 75%-Hürde geknackt.`;
         } else {
-            statusEl.innerText = "Satz mit X ..., leider nicht bestanden";
+            statusEl.innerText = "Nicht bestanden";
             statusEl.className = "result-status failed";
-            detailsEl.innerText = `Du hast ${score} von ${questions.length} Fragen richtig (${percentage}%). Für die 75% brauchst du noch ein paar Versuche. Übung macht den Meister!`;
         }
+
+        detailsEl.innerText = `Du hast ${score} von ${totalPossiblePoints} möglichen Antwort-Punkten richtig erreicht.`;
     }
 
     function restartQuiz() {
         document.getElementById('resultScreen').classList.remove('active');
-        startQuiz();
+        document.getElementById('startScreen').classList.add('active');
     }
 </script>
 

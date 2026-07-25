@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK-QUIZ</title>
+    <style>
+        :root {
+            --bg-color: #0b0716;
+            --panel-bg: #15102a;
+            --neon-pink: #ff2a85;
+            --neon-purple: #b537f2;
+            --neon-cyan: #00f0ff;
+            --neon-green: #00ffaa;
+            --neon-red: #ff3366;
+            --text-main: #f3f0ff;
+            --border-glow: 0 0 15px rgba(181, 55, 242, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(181, 55, 242, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 42, 133, 0.1) 0%, transparent 40%);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--panel-bg);
+            border: 2px solid rgba(181, 55, 242, 0.4);
+            box-shadow: var(--border-glow);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .question-meta {
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            line-height: 1.5;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: rgba(25, 18, 48, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--neon-purple);
+            background: rgba(181, 55, 242, 0.1);
+        }
+
+        .option-btn.selected {
+            background: rgba(181, 55, 242, 0.2);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 42, 133, 0.2);
+        }
+
+        /* Feedback Zustände nach Überprüfung */
+        .option-btn.correct-ans {
+            background: rgba(0, 255, 170, 0.15) !important;
+            border-color: var(--neon-green) !important;
+            color: #afffdf !important;
+        }
+
+        .option-btn.wrong-ans {
+            background: rgba(255, 51, 102, 0.15) !important;
+            border-color: var(--neon-red) !important;
+            color: #ffb3c6 !important;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .cyber-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            border: none;
+            color: #fff;
+            padding: 14px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 42, 133, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .cyber-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 42, 133, 0.5);
+        }
+
+        .explanation {
+            font-size: 0.85rem;
+            background: rgba(10, 5, 20, 0.5);
+            border-left: 3px solid var(--neon-cyan);
+            border-radius: 0 8px 8px 0;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #d8d4fc;
+            line-height: 1.4;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box {
+            text-align: center;
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            margin: 15px 0;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .result-status {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .passed {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.4);
+        }
+
+        .failed {
+            color: var(--neon-red);
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>Jenny´s AK-QUIZ</h1>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </header>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <div class="question-text" style="text-align: center; margin-top: 15px;">
+            Bereit für deine Lernsession?<br>Altklausur AFC WS_24/25.
+        </div>
+        <p style="font-size: 0.85rem; text-align: center; margin-bottom: 30px; color: #a59fc8; line-height: 1.4;">
+            <br>Bestanden ab 75% korrekten Antworten.
+        </p>
+        <button class="cyber-btn" onclick="startQuiz()">Lernen starten</button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="question-meta" id="questionCounter">Frage 1 / 40</div>
+        <div class="question-text" id="questionText">Lade Frage...</div>
+        <div class="options-list" id="optionsList"></div>
+        <div class="explanation" id="explanationBox"></div>
+        <button class="cyber-btn" id="actionBtn" onclick="handleAction()">Antworten prüfen</button>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen">
+        <div class="result-box">
+            <h2 style="color: var(--text-main); font-weight: 600;">Auswertung</h2>
+            <div class="result-score" id="resultScore">0%</div>
+            <div class="result-status" id="resultStatus">Status</div>
+            <p id="resultDetails" style="font-size: 0.9rem; margin-bottom: 25px; color: #b8b2e2; line-height: 1.4;"></p>
+            <button class="cyber-btn" onclick="restartQuiz()">Nochmal lernen</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+     {
+  "frage": "Welche der folgenden Beispiele beschreiben Faktoren und/oder Prozesse, die in dem sozial-ökologischen Mehrebenenansatz nach Bronfenbrenner (1979) berücksichtigt werden? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Dynamiken innerhalb virtueller sozialer Netzwerke und deren Einfluss auf die psychische Gesundheit von Individuen.",
+  "b": "Einflüsse von urbaner Architektur auf das Gemeinschaftsgefühl in städtischen Nachbarschaften.",
+  "c": "Auswirkungen von Schlafmangel auf die kognitive Leistungsfähigkeit des Einzelnen.",
+  "d": "Vergleich von pharmakologischen und psychotherapeutischen Behandlungsansätzen bei Depressionen.",
+  "e": "Entwicklung von sozialen Normen in Jugendgruppen",
+  "richtig": "a, b, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen sind hinsichtlich der Grundwerte der Community Psychology zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Durch den Wert  individuelles und familiäres Wohlergehen\" wird aus community-psychologischer Perspektive die Ausrichtung von Interventionsmaßnahmen beeinflusst.",
+  "b": "Wenn eine Maßnahme sich positiv auf ein Individuum auswirkt, wird dadurch gleichzeitig das Gemeinwohl gefördert.",
+  "c": "Der Wert  Respekt vor Diversität\" ist unter anderem notwendig, um die Rechte von Minoritätsgruppen innerhalb der Community zu sichern und zu stärken.",
+  "d": "In der Community wird im Kontext der sozialen Gerechtigkeit immer das Bedürfnisprinzip favorisiert.",
+  "e": "In einer Community haben Mädchen aufgrund von kulturellen Werten einen eingeschränkten Zugang zu Bildung und gesellschaftlicher Teilhabe. Damit werden bestimmte Gerechtigkeitsprinzipien verletzt und das individuelle Wohlergehen eingeschränkt. Wenn hier eine Abwägung der Werte erfolgt, sollte dies nach dem Erforderlichkeitsprinzip erfolgen.",
+  "richtig": "a, c",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zu den sozial-ökologischen Prinzipien der Community Psychology nach Kelly und Kolleginnen (2000) sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "In einer Stadt organisiert ein Netzwerk von Freiwilligen Lebensmittelspenden, die sie in Zusammenarbeit mit lokalen Geschäften verteilen. Dies ist ein Beispiel für das Prinzip der Zirkulation von Ressourcen.",
+  "b": "Ein neues Programm zur Förderung der sozialen Inklusion wird eingeführt. Die Auswirkungen dieses Programms werden über mehrere Jahre hinweg beobachtet, um langfristige Veränderungen in der Gemeinschaft zu analysieren. Dies ist ein Beispiel für das Prinzip der Interdependenz.",
+  "c": "Nach einer Naturkatastrophe passt sich eine Gemeinde an die veränderten Umweltbedingungen an, indem sie widerstandsfähigere Bauweisen und Notfallpläne entwickelt. Dies ist ein Beispiel für das Prinzip der Adaptation.",
+  "d": "Eine lokale Initiative zur Förderung der Gemeinschaft stellt fest, dass vergangene Versuche, ähnliche Programme zu implementieren, das Vertrauen der Bewohner*innen beeinflussen. Dies ist ein Beispiel für das Prinzip der Sukzession.",
+  "e": "Ein Gesundheitsprojekt führt regelmäßig neue Methoden ein, die den aktuellen Bedürfnissen der Zielgruppe angepasst sind. Dies ist ein Beispiel für das Prinzip der Flexibilität.",
+  "richtig": "a, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen über die Identität von Communities sind zutreffend (z. B. Hopkins & Reicher, 1996; Taylor & Whittier, 1994)? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Die Identität einer Community wird von übergeordneten Institutionen festgelegt.",
+  "b": "Die Identität einer Community wird von Meinungsführer*innen maßgeblich beeinflusst.",
+  "c": "Eine negative Identität/ein negatives Image kann sich negativ auf die Bereitschaft der Mitglieder auswirken, sich für die eigene Community einzusetzen.",
+  "d": "Die Identität einer Community ist festgelegt und wird nur selten hinterfragt.",
+  "e": "Die Identität einer Community entsteht in einem Aushandlungsprozess, der sowohl innerhalb der Community als auch zwischen der eigenen Community und anderen Gruppen stattfindet.",
+  "richtig": "b, c, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zu Ortsbindung und Ortsidentität sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Die Ortsidentität bezieht sich auf die Beziehung zwischen dem Selbstbild einer Person und den geografischen Orten, an denen sie lebt.",
+  "b": "Die Ortsidentität ist eine Substruktur der personalen Identität, die unterschiedliche Kognitionen über eine räumlich-physikalische Umwelt beinhaltet.",
+  "c": "Die Ortsbindung bezieht sich darauf, ob eine Person - unabhängig von emotionaler Verbundenheit - durch Verpflichtungen, z. B. Arbeit, an einen Ort gebunden ist.",
+  "d": "Die Ortsidentität ist eine vergleichbar statische Größe, die sich nur selten verändert.",
+  "e": "Die Ortsidentität ist eine Subdimension des Sense of Community.",
+  "richtig": "a, b",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Persönlichkeitsvariablen sind nachweislich für die Stressbewältigung relevant? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Kohärenzsinn",
+  "b": "Dispositioneller Optimismus",
+  "c": "Selbstwirksamkeitserwartung",
+  "d": "Verträglichkeit",
+  "e": "Kontrollüberzeugung",
+  "richtig": "a, b, c, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Aussagen zu familienexternen Ressourcen im Rahmen der familiären Stressbewältigung sind (laut Studienbrief) korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Andrews et al. (1980) unterscheiden zwischen vier verschiedenen Unterstützungssystemen: formellen, quasi-formellen, informellen und nicht-formellen Unterstützungssystemen.",
+  "b": "Unter formellen Unterstützungssystemen werden unter anderem sozialstaatliche Angebote wie Jugendhilfeeinrichtungen verstanden.",
+  "c": "Die soziale Unterstützung von Familien kann sowohl positive als auch negative Konsequenzen haben.",
+  "d": "Informelle Unterstützungssysteme können in der Regel nur informelle Unterstützung bieten.",
+  "e": "Soziale Transferleistungen sind ein Beispiel für materielle Unterstützung.",
+  "richtig": "b, c, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zu sozialer Unterstützung im Rahmen kollektiver Identität sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Soziale Unterstützung kann sich sowohl auf die Veränderung der Ursachen als auch auf die Reduktion der negativen Auswirkungen von Diskriminierung beziehen.",
+  "b": "Bei hoher wahrgenommener Veränderbarkeit des Systems wird vor allem die Reduktion der negativen Auswirkungen fokussiert.",
+  "c": "Bei niedriger wahrgenommener Wirksamkeit der Gruppe wird darauf fokussiert, die Ursachen der Benachteiligung zu verändern.",
+  "d": "Soziale Unterstützung kann auf individueller oder kollektiver Ebene ansetzen.",
+  "e": "Niedrige kollektive Identität führt zu höherer sozialer Unterstützung innnerhalb der Gruppe.",
+  "richtig": "a, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aspekte kennzeichnen den Begriff des Empowerments nach den Definitionen von Rappaport (1987) sowie Wiley und Rappaport (2000)? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Die Kooperation der Akteure ist durch eine prosoziale Haltung gekennzeichnet.",
+  "b": "Empowerment ist eine zeitstabile Disposition.",
+  "c": "Empowerment wird insbesondere durch individuelle Anstrengungen erreicht.",
+  "d": "Empowerment ist intentional.",
+  "e": "Das Ziel von Empowerment ist der Zugang zu selbstbestimmter Kontrolle über Ressourcen.",
+  "richtig": "a, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Sätze geben Beispiele für die Schlüsselprinzipien von Empowerment wieder? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Mitglieder einer marginalisierten Community bilden Arbeitsgruppen, um gemeinsam Strategien zur Lösung spezifischer Probleme in ihrer Nachbarschaft zu entwickeln.",
+  "b": "Mitglieder einer Community gründen eine Nachbarschaftsinitiative, um regelmäßige Freizeitaktivitäten für Jugendliche zu organisieren.",
+  "c": "Mitglieder einer Community stellen eine Forderung an die lokale Regierung, um Zugang zu besseren Bildungseinrichtungen in ihrem Viertel zu erhalten.",
+  "d": "Mitglieder einer Community schaffen ein Netzwerk von Mentor*innen, um jüngeren Mitgliedern bei der Berufsorientierung zu helfen.",
+  "e": "Eine politisch engagierte weiße Person setzt sich öffentlich für die Interessen der Schwarzen Community in Deutschland im Rahmen der Black Lives Matter Bewegung ein",
+  "richtig": "a, b, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zu kritischem politischen Bewusstsein nach Zimmerman (2000) sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Familiäre Diskussionsfreudigkeit wirkt sich negativ auf die Entwicklung von kritischem politischem Bewusstsein der Kinder aus.",
+  "b": "Das Erleben sozialer Benachteiligung führt in der Regel zu kritischem politischem Bewusstsein.",
+  "c": "Kritisches politisches Bewusstsein beschreibt den objektiven Einfluss von sozialen, ökonomischen und politischen Faktoren auf die Lebenswirklichkeit innerhalb einer Community.",
+  "d": "Kritisches politisches Bewusstsein wird von direkter Kommunikation, nicht jedoch von indirekter Kommunikation beeinflusst.",
+  "e": "Familiäre Sozialisationserfahrungen spielen eine wichtige Rolle bei der Entwicklung von kritischem politischem Bewusstsein.",
+  "richtig": "b, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Interventionsmaßnahmen zur Förderung von aktiver Partizipation setzen an Prozessen der dritten Stufe des Modells von Klandermans (1997) an? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Steigerung der Identifikation",
+  "b": "Frustrationsimpfung",
+  "c": "Triangulation",
+  "d": "Aufbau und Stärkung von Netzwerken",
+  "e": "Bewusstseinsbildung",
+  "richtig": "a, b",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Nach dem Prozessmodell sozial-politischer Partizipation nach Klandermans (1997) sind sowohl Identifikationsprozesse als auch Kosten-Nutzen Kalkulationsprozesse für die Entwicklung von Teilnahmemotivation entscheiden. Welche der folgenden Beispiele zu diesem Schritt des Modells sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Obwohl sie kein besonderes Interesse am Thema Klimaschutz hat, nimmt Henrike manchmal an Klimaschutzprotesten teil, da viele ihrer Freundinnen sich in dem Bereich engagieren und es negativ auffallen würde, wenn ihr Verhalten sich von dem ihrer Freundinnen unterscheiden würde. Ihre Teilnahmemotivation fällt unter „kollektives Motiv“.",
+  "b": "Habibs Freunde finden es beeindruckend, dass er sich letzten Winter bei der Wohnungslosenhilfe engagiert hat. Dies bestärkt ihn darin, sich auch im kommenden Jahr wieder freiwillig zu melden. Seine Motivation aufgrund der Reaktionen seines Umfeldes wird als  normatives Motiv“ bezeichnet.",
+  "c": "Torvi nimmt an einem Protest am Internationalen Frauentag teil, weil sie gemeinsam mit ihren Freundinnen den Tag verbringen und das besondere Gemeinschaftsgefühl erleben möchte, das häufig bei derartigen Protesten entsteht. Dieses Motiv wird als  kollektives Motiv“ bezeichnet.",
+  "d": "Malik ist seit Jahren an der Organisation von proeuropäischen Demonstrationen beteiligt. Anfangs konnte er persönlich wertvolle Erfahrungen im Bereich Kommunikation sammeln, da er für die Bewerbung der Demonstrationen auf Social Media zuständig war. Mittlerweile kennt er sich in dem Bereich gut aus und lernt wenig Neues, weshalb er die Verantwortung zeitnah an eine andere Person abgegeben möchte. Maliks Motiv wird als  Belohnungsmotiv“ bezeichnet.",
+  "e": "Amahle interessiert sich für postkoloniale Theorie, nimmt an Protesten gegen Rassismus teil und setzt sich in einem Integrationsrat für die Bedürfnisse von Migrant*innen in ihrer Nachbarschaft ein, weil sie sich als Aktivistin und Teil einer generationsübergreifenden Bewegung sieht. Ihre Teilnahmemotivation entsteht über einen kollektiven Identifikationsprozess.",
+  "richtig": "b, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Community-psychologische Forschung ist in kulturelle Kontexte eingebettet und dementsprechend sollten bestimmte definitorische und methodische Aspekte berücksichtigt werden. Welche der folgenden Aussagen sind in diesem Zusammenhang laut Studienbrief korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Bei der Erfassung kultureller Identitäten sollte Personen, die an psychologischen Studien teilnehmen, ermöglicht werden anzugeben, dass sie sich mehreren kulturellen Gruppen zugehörig fühlen.",
+  "b": "Der Erwerb interkultureller Kompetenzen kann dazu beitragen, dass psychologische Wissenschaftler*innen mögliche Fremdgruppen-Homogenisierung hinterfragen und in ihrem methodischen Vorgehen berücksichtigen.",
+  "c": "Ein Großteil der psychologischen Studien, in denen kulturelle Unterschiede zwischen Gruppen erforscht wurden, sind Positivbeispiele für ressourcenorientierte und kulturell sensible Forschung.",
+  "d": "Bei der Erfassung kultureller Identitäten kann angenommen werden, dass diese kontextübergreifend das Erleben und Verhalten der Teilnehmenden gleich stark beeinflussen.",
+  "e": "Kulturelle Einflüsse auf Antwortverhalten sind bei der Entwicklung neuer psychologischer Messinstrumente zu vernachlässigen, da vergangene Methodenforschung nur minimale Einflüsse aufgezeigt hat.",
+  "richtig": "a, b",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Sie führen ein community-psychologisches Forschungsprojekt zur kulturellen und ethnischen Identität von Einwander*innen in Deutschland durch. Dafür interviewen Sie eine junge Frau namens Liya, welche vor einigen Jahren mit ihren Eltern von Eritrea nach Deutschland gezogen ist. Sie wollen erfahren, wie sehr sie sich welcher Kultur oder Ethnie zugehörig fühlt und greifen dabei auf die vier Komponenten der ethnischen Identität nach Phinney (1990) zurück. Welche Aussagen sind in diesem Zusammenhang zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Liya berichtet viel über die Geschichte Eritreas und scheint sich sehr gut damit auszukennen. Dies ist an Beispiel für ethnische Identifikation.",
+  "b": "Liya erzählt, dass sie mit vielen Einwander*innen aus Eritrea befreundet ist, und findet, dass Menschen aus Eritrea meistens freundlich, offen und herzlich seien. Dies ist ein Beispiel für eine positive ethnische Einstellung.",
+  "c": "Liya erzählt, dass sie sehr stolz auf ihre eritreischen Wurzeln ist. Dies ist ein Beispiel für ein hohes ethnisches Bewusstsein.",
+  "d": "Liya spricht weder arabisch noch Tigrinya (Amtssprachen in Eritrea). Dies spricht für eine geringe ethnische Identifikation.",
+  "e": "Liya kocht sehr gern eritreisches Essen. Dies ist ein Beispiel für ethnische Verhaltensweisen.",
+  "richtig": "b, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zu Stärken und Schwächen partizipativer Forschung sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'. Partizipative Forschung...",
+  "a": "...baut Barrieren zwischen Forschenden und Community ab.",
+  "b": "...gefährdet lokale Kompetenzen und Wissenserwerb.",
+  "c": "...beeinflusst methodische Entscheidungen nicht.",
+  "d": "...führt zu hoher Generalisierbarkeit der Ergebnisse auf das allgemeine Erleben und Verhalten von Individuen bzw. Gruppen.",
+  "e": "...erfordert einen geringeren Zeitaufwand als konventionelle Forschung.",
+  "richtig": "a",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Aussagen bezüglich der Forschungsphase 1 (Aufbau kollaborativer Beziehungen zu Schlüsselfiguren) sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Umfangreiches Wissen über die Community kann verhindern, dass wichtige Akteur*innen und Interessensgruppen vom Forschungsprozess ausgeschlossen werden.",
+  "b": "Gruppen innerhalb der Community mit sehr starken unterschiedlichen Interessen sollten in dieser Phase aufgrund des Konfliktpotenzials noch nicht miteinander in Kontakt gebracht werden.",
+  "c": "Die Community Mitglieder sollten in allen Bereichen und bei allen Entscheidungen mit einbezogen werden.",
+  "d": "Der Kontakt zu einzelnen Personen und Gruppen sollte in dieser Phase häufiger hergestellt werden.",
+  "e": "Diese Phase ist in der Regel in einem sehr kurzen Zeitraum abgeschlossen.",
+  "richtig": "a, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Vorgehensweisen werden als Mixed-Method Design bezeichnet? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "In einer Schule werden offene Interviews mit einer kleinen Gruppe von Lehrkräften und Schüler*innen zum Thema Schulzufriedenheit durchgeführt. Anschließend wird auf Basis der Interviewergebnisse ein Fragebogen erstellt, der an alle Schülerinnen der Schule verteilt und anschließend statistisch ausgewertet wird.",
+  "b": "In einer Untersuchung zur Nutzung von öffentlichen Parks wird zuerst eine systematische Beobachtungsstudie durchgeführt, um die Nutzungsmuster (Dauer, Uhrzeit, Häufigkeit) zu dokumentieren. Danach werden Interviews mit Personen geführt, um ihre Erfahrungen und Meinungen zur Parknutzung zu verstehen.",
+  "c": "In einer Untersuchung zur Wirkung von Werbung wird eine Fokusgruppe durchgeführt, um allgemeine Meinungen zu sammeln. Die Ergebnisse werden anschließend in Interviews mit Werbeexpert*innen vertieft und in einem narrativen Bericht dargestellt.",
+  "d": "Zur Untersuchung der Auswirkungen von Fitnessprogrammen werden Interviews mit den Teilnehmenden durchgeführt. Die Ergebnisse der Interviews werden thematisch analysiert und in einer Fallstudie präsentiert.",
+  "e": "In einer Studie zur Wirksamkeit von Gesundheitskampagnen wird zunächst eine quantitative Befragung durchgeführt, um die Reichweite und den Einfluss der Kampagne zu messen. Diese Ergebnisse werden dann in Fokusgruppen diskutiert, um erweiterte Erkenntnisse zu den Mechanismen und Barrieren der Kampagne zu gewinnen.",
+  "richtig": "a, b, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Im Rahmen der Konzeption datenbasierter Maßnahmen (Forschungsphase 5) wird das bisherige Wissen zur Thematik in den Kontext eingebettet. Welche der folgenden Aspekte gehören dazu? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Die Formulierung von allgemeinen Wirkannahmen.",
+  "b": "Die Formulierung von möglichen psychologischen Zusammenhängen von Theorien und Datenlage.",
+  "c": "Die Durchführung einer Kontextanalyse.",
+  "d": "Die Beachtung gesetzlicher und organisatorischer Rahmenbedingungen.",
+  "e": "Die Wahl relevanter Messinstrumente.",
+  "richtig": "a, b, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen zur Empowerment Evaluation sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Empowerment Evaluation orientiert sich an den Bedürfnissen der Community.",
+  "b": "Empowerment Evaluation soll bestimmte Fähigkeiten in der Community fördern.",
+  "c": "Empowerment Evaluation sollte sich logisch in den Kontext des geplanten Programmes einfügen.",
+  "d": "Die Stärken und Ressourcen der Community werden in die Maßnahmenplanung mit einbezogen.",
+  "e": "Es gibt wenig empirische Belege, dass Empowerment Evalution tatsächlich das Empowerment fördert.",
+  "richtig": "a, b, c, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Burnes et al. (2019) untersuchten Interventionen zur Reduzierung von Ageism. Welche der folgenden Aussagen geben die Inhalte des Artikels korrekt wieder? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Ageism hat Einfluss auf die physische und psychische Gesundheit von Betroffenen.",
+  "b": "Ageism durch medizinisches und therapeutisches Fachpersonal kann zu diskriminierendem Verhalten gegenüber älteren Menschen führen und in der Konsequenz eine angemessene Versorgung verhindern.",
+  "c": "Ageism hat bisher keinen einschränkenden Einfluss auf die Gesundheitspolitik.",
+  "d": "Ageism kann zu sozialer Exklusion von älteren Menschen führen und somit einen chronischen Stressor produzieren.",
+  "e": "Interventionen gegen Ageism haben das Ziel Einstellungen gegenüber älteren Menschen zu verändern und dadurch Diskriminierung zu reduzieren.",
+  "richtig": "a, b, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "In der psychologischen Forschung wird der Begriff Akkulturation verwendet. Welche der folgenden Aussagen beschreiben (laut Vorlesung) Aspekte dieses Konstrukts? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Akkulturation beschreibt einen Prozess, der positive Beziehungen zwischen kulturellen Gruppen zur Folge hat.",
+  "b": "Akkulturation kann die einseitig gerichtete Anpassung einer kulturellen Gruppe an eine andere Gruppe bedeuten.",
+  "c": "Akkulturation beschreibt eine kurzfristige Kontaktsituation zwischen unterschiedlichen kulturellen Gruppen.",
+  "d": "Akkulturationsprozesse sind bewusst herbeigeführte und organisierte Lernprozesse.",
+  "e": "Akkulturation kann die Kultivierung und Aufrechterhaltung der eigenen kulturellen Identität bedeuten.",
+  "richtig": "b, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen treffen gemäß der „Integrated Threat Theory“ zu? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Realistische Bedrohung beinhaltet die Erwartung negativer wirtschaftlicher Konsequenzen für die eigene Gruppe.",
+  "b": "Symbolische Bedrohung beinhaltet die Erwartung negativer Konsequenzen für die eigenen Werte.",
+  "c": "Symbolische Bedrohung beinhaltet die Erwartung negativer Konsequenzen für die eigene Kultur.",
+  "d": "Symbolische Bedrohung kann zu Vorurteilen führen.",
+  "e": "Realistische Bedrohung kann zu Vorurteilen führen.",
+  "richtig": "a, b, c, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "In ihrem Überblicksartikel fassen Landmann et al. (2017) wichtige Forschungsergebnisse zur Kontakthypothese (Allport, 1954) zusammen. Welche Aussagen über diese Ergebnisse sind zutreffend?",
+  "a": "Menschen mit geringen Vorurteilen sind nicht kontaktfreudiger als Menschen mit Vorurteilen.",
+  "b": "Optimaler Kontakt besteht, wenn der Kontakt auf Augenhöhe stattfindet, eine Zusammenarbeit an gemeinsamen Zielen erfolgt und er von Institutionen und Autoritäten unterstützt wird.",
+  "c": "Kontakt hat bei intoleranten Menschen keine vorurteilreduzierende Wirkung.",
+  "d": "Auch indirekter Kontakt (vermittelt über andere Personen oder Medien) kann vorurteilsreduzierend wirken.",
+  "e": "Negativer Kontakt führt zu besonders negativen Einstellungen gegenüber der Outgroup.",
+  "richtig": "b, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen sind dem Integrationsmodell von Ager und Strang (2008) zufolge richtig? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Migrant*innen müssen sich so schnell wie möglich an die Aufnahmekultur anpassen.",
+  "b": "Soziale Beziehungen innerhalb der Herkunftskultur der Migrant*innen hindern die Integration von Migrant*innen.",
+  "c": "Die sozialen Beziehungen zwischen Migrant*innen und Mitgliedern der Aufnahmekultur werden als Social Bridges bezeichnet.",
+  "d": "Die sozialen Beziehungen innerhalb der Herkunftskultur werden als Social Bonds bezeichnet.",
+  "e": "Die Beziehungen zwischen Individuen und staatlichen Strukturen werden als Social Links bezeichnet.",
+  "richtig": "c, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "An einer Schule steigen seit Jahren die Meldungen von Mobbing gegenüber internationalen Austauschschüler*innen. Aufgrund ihrer Herkunft werden sie von ihren Mitschüler*innen ausgegrenzt, und es wurden Beleidigungen und einzelne körperliche Übergriffe gemeldet. Mittlerweile sieht sich die Schulverwaltung gezwungen, eine umfassende Intervention durchzuführen. Diese soll auf dem Bedürfnisbasierten Modell der Versöhnung (Shnabel & Nadler, 2008) basieren. Welche der folgenden Aussagen sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Die bedrohte Identitätsdimension der Austauschschülerinnen kann über Ermächtigung (empowerment) der Gruppe gestärkt werden.",
+  "b": "Im Rahmen dieses Konflikts ist Zugehörigkeit eine bedrohte Identitätsdimension der Austauschschüler*innen.",
+  "c": "Das moralische Image und damit die Identitätsdimension der communion ist bei den lokalen Mitschülerinnen durch den Konflikt bedroht.",
+  "d": "Um in der Intervention eine Versöhnung zwischen den Schüler*innen zu erreichen und weiteren Mobbing-Vorfällen vorzubeugen, wird ein wechselseitiger Prozess der Unterstützung zur gegenseitigen Bedürfnisbefriedigung angestrebt.",
+  "e": "Da nur Schülerinnen, die direkt an den Vorfällen beteiligt waren, opfer- und täter*innenspezifische Bedürfnisse empfinden, sollten nur diese Personen an der Intervention beteiligt werden.",
+  "richtig": "a, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche Aussagen über die Klassifikation interkultureller Trainings nach Gudykunst und Hammer (1983) sind zutreffend? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Didaktische Trainingsansätze basieren auf der Annahme, dass ein interkultureller Lernprozess durch eigene ganzheitliche Erfahrungen geprägt sein sollte.",
+  "b": "Bei einer Kreuzung der beiden Dimensionen entstehen sechs unterschiedliche Trainingstypen.",
+  "c": "Simulationen und Rollenspiele zur interkulturellen Sensibilisierung werden den kulturspezifischen didaktischen Ansätzen zugeordnet.",
+  "d": "Fremdsprachenunterricht wird dem erfahrungsbasierten kulturübergreifenden Ansatz zugeordnet.",
+  "e": "Besondere Bedeutung kommt der Klassifikation bei der Planung von interkulturellen Trainings nach zuvor festgelegten Lernzielen (z. B. Einstellungsänderung oder Verhaltensveränderung) zu.",
+  "richtig": "e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Ein großes internationales Unternehmen hat Sie als Community Psycholog*in damit beauftragt, ein interkulturelles Training durchzuführen, um die Zusammenarbeit der aus verschiedenen Ländern stammenden Mitarbeitenden zu verbessern und Missverständnisse zu vermeiden. Sie sollen die Wirksamkeit dieses Trainings evaluieren. Was sollten Sie laut Mazziotta et al. (2016) bei der Evaluation der Trainingsmaßnahme beachten? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Sie sollten möglichst unvoreingenommen an die Evaluation Ihrer Maßnahme gehen und daher darauf verzichten, bereits im Vorfeld klare Lernziele zu formulieren.",
+  "b": "Eine gute Evaluation sollte sich auf mindestens zwei der vier von Kirkpatrick und Kirkpatrick (2006) definierten Ebenen Reaktion, Lernerfolg, Verhalten und Endergebnis beziehen.",
+  "c": "Sie sollten, wenn möglich, für die Evaluation ein (quasi-)experimentelles Design mit randomisierter Zuordnung zur Interventions- oder Kontrollbedingung wählen, um Selektionseffekte zu vermeiden.",
+  "d": "Sie sollten sich bei der Evaluation auf intendierte Effekte konzentrieren. Mögliche negative Nebeneffekte können Sie aus praktischen Gründen vernachlässigen.",
+  "e": "Wenn die Evaluation des Trainings positiv ausfällt, können Sie davon ausgehen, dass die Maßnahme funktioniert und auch zukünftig in anderen Kontexten die gewünschten Effekte erreicht.",
+  "richtig": "a, b, c, d, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "In ihrem Artikel beschreiben Frank et al. (2015) Grundlagen, Gegenstandsbereiche und Methoden der politischen Psychologie. Welche der folgenden Aussagen sind in diesem Zusammenhang korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "„Angela Merkels persönliche, politische Überzeugungen hatten bedeutenden Einfluss auf ihr Verhalten in außenpolitischen Friedensverhandlungen.“ Dieses Statement passt zum politisch-psychologischen Operational-Code Ansatz.",
+  "b": "Es gibt verschiedene Forschungszweige in der politischen Psychologie, unter anderem den evolutionspsychologischen und den psychoanalytischen.",
+  "c": "Forschende möchten die politische Partizipation der Bürger*innen im ganzen Land analysieren. Dafür befragen sie eine Zufallsstichprobe von Bürger*innen zu ihrer Teilnahme an Wahlen und der Beteiligung an lokalen politischen Aktivitäten.",
+  "d": "Forschende bestimmen die Anzahl der Erwähnungen bestimmter politischer Themen in Reden und Interviews von Politiker*innen, um Muster und Schwerpunkte in ihrer Kommunikation zu identifizieren. Dies ist ein Beispiel für eine im Rahmen der elitebezogenen Forschung eingesetzte Methode.",
+  "e": "Zur Untersuchung des Kooperationsverhaltens, der Kompromissbereitschaft und der Entscheidungsfindung in politischen Situationen, werden in einem Laborexperiment mit Politiker*innen simulierte Verhandlungsszenarien durchgeführt. Diese Methode entspricht einem bei der Zielgruppe bevorzugt eingesetzten Design in der politischen Psychologie.",
+  "richtig": "a, b, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Kießler und Frischlich (2015) beschreiben den Einfluss von Medien. Welche Aussagen treffen zu? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Medien beeinflussen, worauf Rezipient*innen ihre Aufmerksamkeit richten.",
+  "b": "Die Theorie des Agenda-Setting besagt, dass die Medien beeinflussen, über welche Themen die Gesellschaft nachdenkt.",
+  "c": "Laut dem Eskalationsmodell von Brosius und Esser gibt ein mediales Meinungsklima gegen Migrant*innen Menschen mit rechter politischer Orientierung das Gefühl, dass ihre Haltung von der Mehrheit der Gesellschaft abgelehnt würde.",
+  "d": "Medien determinieren die Einstellung von Rezipient*innen.",
+  "e": "Die Theorie des Agenda-Setting besagt, dass die Agenda von Politiker*innen beeinflusst, über welche Themen die Gesellschaft nachdenkt.",
+  "richtig": "a, b",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Aussagen zu Radikalisierung sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Kruglanski und Webber (2014) definieren Radikalisierung als einen Prozess innerhalb dessen Personen radikale Mittel unterstützen und anwenden, um spezifische Probleme oder Ziele anzugehen.",
+  "b": "Radikalisierung beinhaltet Faktoren auf der individuellen Ebene, der Ebene von Gruppen und der gesellschaftlichen Ebene.",
+  "c": "Radikalisierung wird von Kruglanski und Webber (2014) als Suche nach Bedeutsamkeit verstanden.",
+  "d": "Im Modell der (De)Radikalisierung von Doosje et al. (2016) werden zwei Phasen unterschieden: die Sensitivierung (Sensitivity) zu bestimmten Themen bzw. gesellschaftlichen Problemen und die daran anschließende radikale Handlung (Action) als Einzelperson.",
+  "e": "Mögliche Präventions- bzw. Interventionsansätze von Radikalisierung umfassen die Förderung von Integration, die soziale Einbindung von Einzelpersonen und Gruppen, die Förderung von Selbstwert und Empathie sowie die Vermeidung von Stigmatisierung durch die Darstellung von bestimmten Personengruppen als gefährlich.",
+  "richtig": "a, b, c, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "In der Studie von Whitmarsh und O'Neill (2010) wurden Personen nach ihrer Einstellung zu Umweltschutz und Klimawandel, nach einigen Kontextfaktoren und nach unterschiedlichen Typen umweltrelevanten Verhaltens gefragt. Welche Aussagen zur Untersuchung und den Ergebnissen sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "„Umweltfreundliche Identität“ ist das Ausmaß, in dem eine Person sich selbst als umweltfreundliche Person sieht. Diese umweltfreundliche Identität scheint - laut Ergebnissen der Studie - in erster Linie mit politischem Engagement in Zusammenhang zu stehen.",
+  "b": "Ziel der Studie war die Untersuchung von Prädiktoren für umweltfreundliches Verhalten.",
+  "c": "Mobilitätsverhalten scheint insbesondere durch den Kontext beeinflusst zu sein.",
+  "d": "Die Einstellung zum Klimawandel scheint für die Beteiligung an politischen Aktionen zum Umweltschutz eine Rolle zu spielen.",
+  "e": "Wenn eine Person keine negativen Konsequenzen für umweltschädliches Verhalten erfährt und somit weitere umweltschädliche Verhaltensweisen aufnimmt, wird dies als negativer Spill-over-Effekt bezeichnet.",
+  "richtig": "b, c, d",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Einordnungen passen zu der von Landmann und Rohmann (2020) genutzten Definition und Differenzierung von kollektivem, umweltfreundlichem Verhalten? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Das Unterschreiben einer Online-Petition gegen die Bebauung eines Grüngürtels in einer Großstadt ist eine kollektive Handlung, die nicht aggressiv ist.",
+  "b": "Vegane Ernährung ist eine nicht-normative kollektive Handlung.",
+  "c": "Das Vandalisieren von Kunstwerken durch aktivistische Gruppen, um die auf die Folgen des Klimawandels aufmerksam zu machen, ist eine nicht-normative kollektive Handlung.",
+  "d": "Die Teilnahme an anmeldeten, friedlichen Demonstrationen im Rahmen von Fridays for Future ist eine kollektive Handlung mit niedrigem Aufwand.",
+  "e": "Identität bezüglich Aktivismus und umweltfreundlichem Verhalten sind relevante Prädiktoren für normative kollektive Handlungen, jedoch keine für nicht-normative kollektive Handlungen.",
+  "richtig": "a, c",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Aussagen zur Studie von Mehnert et al. (2018) zum Thema Beratung sind korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "In der Studie wird die Variable „wahrgenommene Glaubwürdigkeit der Beraterin“ (perceived credibility) als ein möglicher Moderator analysiert.",
+  "b": "Die Variable „wahrgenommene Empathie der Beraterin“ (perceived empathy) mediierte die Beziehung zwischen wahrgenommenen Ähnlichkeit zwischen der Eigen- und der Beratungsperson und der Bereitschaft, das Beratungsgebot anzunehmen.",
+  "c": "Die Variable „Grad der HIV-bedingten Stigmatisierung“ (level of HIV-related stigmatization) moderiert die Beziehung zwischen der wahrgenommenen Ähnlichkeit zwischen der Eigen- und Beratungsperson (perceived similarity) und der Bereitschaft, das Beratungsgebot anzunehmen.",
+  "d": "Zielgruppe der Studie waren Frauen, die entweder HIV-positiv oder Hepatitis C-positiv waren.",
+  "e": "Die Hypothesen wurden mittels eines online Experiments mit insgesamt drei Bedingungen (Beraterin ist HIV-positiv, Beraterin ist HIV-negativ, Beraterin ist HIV-negativ aber Hepatitis C-positiv) überprüft.",
+  "richtig": "b, c, e",
+  "begruendung": ":-)"
+},
+{
+  "frage": "Welche der folgenden Aussagen zu sozialer Ungleichheit und Diversität sind laut des Kapitels von van Egmond et al. (2017) korrekt? Wählen Sie für alle Aussagen entweder, Richtig' oder, Falsch'.",
+  "a": "Wenn Menschen objektiv betrachtet im Vergleich zu anderen weniger besitzen als ihnen zusteht und einen geringeren Zugang zu bestimmten Ressourcen haben, dann wird dies als „relative Deprivation“ bezeichnet.",
+  "b": "Menschen mit einem niedrigen sozioökonomischen Status haben im Vergleich zu Menschen mit einem höheren sozioökonomischen Status zwar ein höheres Erkrankungsrisiko, jedoch eine höhere Lebenserwartung.",
+  "c": "Höhere Gesundheitsrisiken aufgrund eines niedrigeren sozioökonomischen Status sind unter anderem durch Über- und Fehlbelastungen in Berufen mit hoher körperlicher Aktivität verbunden.",
+  "d": "Menschen mit niedrigem sozioökonomischen Status nehmen, laut Untersuchungen, weniger an präventiven und gesundheitsfördernden Angeboten teil.",
+  "e": "Die Gesundheit von freiwillig und unfreiwillig migrierten Personen wird unter anderem durch das Ausmaß an Toleranz für kulturelle Diversität im Aufnahmeland beeinflusst.",
+  "richtig": "c, d, e",
+  "begruendung": ":-)"
+}
+];
+
+    let currentQuestionIndex = 0;
+    let score = 0; // Das sind jetzt die gesammelten Punkte
+    let totalPossiblePoints = 0; // Hier summieren wir alle im Quiz möglichen Punkte auf
+    let userAnswers = {};
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        totalPossiblePoints = 0;
+        userAnswers = {};
+
+        // Berechne vorab die insgesamt erreichbaren Punkte im gesamten Quiz
+        questions.forEach((q, index) => {
+            const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+            totalPossiblePoints += correctArr.length;
+        });
+
+        document.getElementById('startScreen').classList.remove('active');
+        document.getElementById('quizScreen').classList.add('active');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        resetState();
+        const q = questions[currentQuestionIndex];
+        
+        document.getElementById('questionCounter').innerText = `Frage ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('questionText').innerText = q.frage;
+
+        const optionsList = document.getElementById('optionsList');
+        const optionsKeys = ['a', 'b', 'c', 'd', 'e'];
+
+        optionsKeys.forEach(key => {
+            if (q[key]) {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${key.toUpperCase()}) ${q[key]}`;
+                btn.dataset.key = key;
+                btn.onclick = () => toggleOption(btn);
+                optionsList.appendChild(btn);
+            }
+        });
+
+        updateProgress();
+    }
+
+    function toggleOption(btn) {
+        if (btn.disabled) return;
+        btn.classList.toggle('selected');
+    }
+
+    function resetState() {
+        const optionsList = document.getElementById('optionsList');
+        optionsList.innerHTML = '';
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.classList.remove('show');
+        explanationBox.innerText = '';
+        const actionBtn = document.getElementById('actionBtn');
+        actionBtn.innerText = 'Antworten prüfen';
+        actionBtn.onclick = handleAction;
+    }
+
+    function handleAction() {
+        const actionBtn = document.getElementById('actionBtn');
+        const q = questions[currentQuestionIndex];
+        const selectedButtons = document.querySelectorAll('.option-btn.selected');
+        
+        if (selectedButtons.length === 0) {
+            alert('Bitte wähle mindestens eine Option aus.');
+            return;
+        }
+
+        const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+        const optionButtons = document.querySelectorAll('.option-btn');
+
+        // Buttons sperren und Auswertung anzeigen
+        optionButtons.forEach(btn => {
+            btn.disabled = true;
+            const key = btn.dataset.key;
+            const isSelected = btn.classList.contains('selected');
+            const isCorrect = correctArr.includes(key);
+
+            if (isCorrect) {
+                btn.classList.add('correct-ans');
+                // Wenn richtig angekreuzt wurde, geben wir einen Punkt dazu
+                if (isSelected) {
+                    score += 1;
+                }
+            } else {
+                if (isSelected) {
+                    btn.classList.add('wrong-ans');
+                }
+            }
+        });
+
+        // Begründung anzeigen
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.innerText = "Begründung: " + q.begruendung;
+        explanationBox.classList.add('show');
+
+        // Button-Text auf "Weiter" ändern
+        actionBtn.innerText = 'Nächste Frage';
+        actionBtn.onclick = nextQuestion;
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function updateProgress() {
+        const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizScreen').classList.remove('active');
+        document.getElementById('resultScreen').classList.add('active');
+        document.getElementById('progressFill').style.width = '100%';
+
+        // Prozentberechnung basierend auf den tatsächlich gesammelten Punkten vs. allen möglichen Punkten
+        const percentage = totalPossiblePoints > 0 ? Math.round((score / totalPossiblePoints) * 100) : 0;
+
+        document.getElementById('resultScore').innerText = `${percentage}%`;
+
+        const statusEl = document.getElementById('resultStatus');
+        const detailsEl = document.getElementById('resultDetails');
+
+        if (percentage >= 75) {
+            statusEl.innerText = "Bestanden!";
+            statusEl.className = "result-status passed";
+        } else {
+            statusEl.innerText = "Nicht bestanden";
+            statusEl.className = "result-status failed";
+        }
+
+        detailsEl.innerText = `Du hast ${score} von ${totalPossiblePoints} möglichen Antwort-Punkten richtig erreicht.`;
+    }
+
+    function restartQuiz() {
+        document.getElementById('resultScreen').classList.remove('active');
+        document.getElementById('startScreen').classList.add('active');
+    }
+</script>
+
+</body>
+</html>

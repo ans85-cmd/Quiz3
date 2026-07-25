@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jenny´s Lern-App</title>
+    
+    <!-- App Manifest im Handy-Style -->
+    <link rel="manifest" href='data:application/manifest+json,{
+        "name": "Jenny AK-Quiz",
+        "short_name": "QuizApp",
+        "start_url": "index.html",
+        "display": "standalone",
+        "background_color": "#0b0716",
+        "theme_color": "#ff2a85",
+        "icons": [{
+            "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAI8SURBVHja7Jvfa5pRFMf/1u26F93M3kUvuhgIihQz1xZpYg9FEPoyyB5EVG8i+jAoiqC6kIggCAqK+oILu5CEbuhCUIKjIigQhChK6uV4qTdn88vudOfsOTuH+8Lgwe2Zc27u+f7PObcve5rW2rWlWpW3v0H5N58JkIAGCCmAQAAEAwBAEAAABAEAAABAEAAABAEAAABAEAAABAEAAABA8P7b7MvvR2T59/8KICL3G8c+F4wHAAAQDAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwBAEAQAAEAwDAEADx3+wVb+Q1W5K/8AAAAAElFTkSuQmCC",
+            "sizes": "64x64",
+            "type": "image/png"
+        }]
+    }'>
+    
+    <!-- Meta Tags für App-Feeling auf Smartphones -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0b0716">
+
+    <style>
+        :root {
+            --bg-color: #0b0716;
+            --panel-bg: #15102a;
+            --neon-pink: #ff2a85;
+            --neon-purple: #b537f2;
+            --neon-cyan: #00f0ff;
+            --neon-green: #00ffaa;
+            --text-main: #f3f0ff;
+            --border-glow: 0 0 20px rgba(181, 55, 242, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Hintergrund-Animation (Schwebende Herzen) --- */
+        .hearts-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-pink);
+            transform: rotate(45deg);
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-purple);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-pink);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.4) rotate(45deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            80% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- App-Container Layout --- */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(21, 16, 42, 0.85);
+            border: 2px solid rgba(181, 55, 242, 0.5);
+            box-shadow: var(--border-glow);
+            border-radius: 24px;
+            padding: 28px 20px;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            text-align: center;
+        }
+
+        /* App Icon Styling */
+        .app-icon-wrapper {
+            margin: 0 auto 15px auto;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 42, 133, 0.5);
+            animation: pulseIcon 3s ease-in-out infinite;
+        }
+
+        .app-icon-wrapper svg {
+            width: 45px;
+            height: 45px;
+            fill: #fff;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 42, 133, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 240, 255, 0.6); }
+        }
+
+        header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #b8b2e2;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Menü Buttons --- */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(25, 18, 48, 0.8), rgba(40, 25, 75, 0.9));
+            border: 1px solid rgba(181, 55, 242, 0.4);
+            color: var(--text-main);
+            padding: 16px 20px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(181, 55, 242, 0.2), rgba(255, 42, 133, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(1px);
+        }
+
+        footer {
+            font-size: 0.75rem;
+            color: #8c85b5;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hintergrund mit animierten Herzen -->
+    <div class="hearts-background" id="heartsContainer"></div>
+
+    <div class="app-container">
+        <!-- App Icon (Herz-Symbol) -->
+        <div class="app-icon-wrapper">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+
+        <header>
+            <h1>Jenny´s AK-Hub</h1>
+            <div class="subtitle">Wähle deine Altklausur-Session</div>
+        </header>
+
+        <!-- Die 3 gewünschten Links/Buttons -->
+        <div class="menu-list">
+            <a href="Altklausur_1.html" class="nav-btn">M5 SoSe25</a>
+            <a href="Altklausur_2.html" class="nav-btn">M5 SoSe24</a>
+            <a href="Altklausur_3.html" class="nav-btn">AFC Ws 24/25</a>
+        </div>
+
+        <footer>
+            Viel Erfolg beim Lernen! 💜
+        </footer>
+    </div>
+
+    <script>
+        // Skript zur dynamischen Erstellung der schwebenden Hintergrund-Herzen
+        const container = document.getElementById('heartsContainer');
+        const heartCount = 18;
+
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Zufällige Positionierung und Animations-Variationen
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = (Math.random() * 20 + 100) + '%';
+            
+            const size = Math.random() * 12 + 8; // Größe zwischen 8px und 20px
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            
+            // Auch Pseudo-Elemente anpassen über inline Styles via Variablen oder Direkt-Skalierung
+            const duration = Math.random() * 4 + 4; // Dauer 4-8 Sekunden
+            const delay = Math.random() * 5; // Verzögerung
+            
+            heart.style.animationDuration = duration + 's';
+            heart.style.animationDelay = delay + 's';
+            
+            container.appendChild(heart);
+        }
+    </script>
+</body>
+</html>

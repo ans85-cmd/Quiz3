@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK-QUIZ</title>
+    <style>
+        :root {
+            --bg-color: #0b0716;
+            --panel-bg: #15102a;
+            --neon-pink: #ff2a85;
+            --neon-purple: #b537f2;
+            --neon-cyan: #00f0ff;
+            --neon-green: #00ffaa;
+            --neon-red: #ff3366;
+            --text-main: #f3f0ff;
+            --border-glow: 0 0 15px rgba(181, 55, 242, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(181, 55, 242, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 42, 133, 0.1) 0%, transparent 40%);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--panel-bg);
+            border: 2px solid rgba(181, 55, 242, 0.4);
+            box-shadow: var(--border-glow);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .question-meta {
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            line-height: 1.5;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: rgba(25, 18, 48, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--neon-purple);
+            background: rgba(181, 55, 242, 0.1);
+        }
+
+        .option-btn.selected {
+            background: rgba(181, 55, 242, 0.2);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 42, 133, 0.2);
+        }
+
+        /* Feedback Zustände nach Überprüfung */
+        .option-btn.correct-ans {
+            background: rgba(0, 255, 170, 0.15) !important;
+            border-color: var(--neon-green) !important;
+            color: #afffdf !important;
+        }
+
+        .option-btn.wrong-ans {
+            background: rgba(255, 51, 102, 0.15) !important;
+            border-color: var(--neon-red) !important;
+            color: #ffb3c6 !important;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .cyber-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            border: none;
+            color: #fff;
+            padding: 14px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 42, 133, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .cyber-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 42, 133, 0.5);
+        }
+
+        .explanation {
+            font-size: 0.85rem;
+            background: rgba(10, 5, 20, 0.5);
+            border-left: 3px solid var(--neon-cyan);
+            border-radius: 0 8px 8px 0;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #d8d4fc;
+            line-height: 1.4;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box {
+            text-align: center;
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            margin: 15px 0;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .result-status {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .passed {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.4);
+        }
+
+        .failed {
+            color: var(--neon-red);
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>Jenny´s AK-QUIZ</h1>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </header>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <div class="question-text" style="text-align: center; margin-top: 15px;">
+            Bereit für deine Lernsession?<br>Altklausur M5 SoSe24.
+        </div>
+        <p style="font-size: 0.85rem; text-align: center; margin-bottom: 30px; color: #a59fc8; line-height: 1.4;">
+            <br>Bestanden ab 75% korrekten Antworten.
+        </p>
+        <button class="cyber-btn" onclick="startQuiz()">Lernen starten</button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="question-meta" id="questionCounter">Frage 1 / 40</div>
+        <div class="question-text" id="questionText">Lade Frage...</div>
+        <div class="options-list" id="optionsList"></div>
+        <div class="explanation" id="explanationBox"></div>
+        <button class="cyber-btn" id="actionBtn" onclick="handleAction()">Antworten prüfen</button>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen">
+        <div class="result-box">
+            <h2 style="color: var(--text-main); font-weight: 600;">Auswertung</h2>
+            <div class="result-score" id="resultScore">0%</div>
+            <div class="result-status" id="resultStatus">Status</div>
+            <p id="resultDetails" style="font-size: 0.9rem; margin-bottom: 25px; color: #b8b2e2; line-height: 1.4;"></p>
+            <button class="cyber-btn" onclick="restartQuiz()">Nochmal lernen</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+     {
+  "frage": "In kulturvergleichenden Studien wird ...",
+  "a": "Kultur als bedeutungslos für psychische Funktionen betrachtet.",
+  "b": "nach Universalien gesucht.",
+  "c": "Kulturzugehörigkeit in der Regel als unabhängige Variable betrachtet.",
+  "d": "Kulturzugehörigkeit häufig als Landeszugehörigkeit betrachtet.",
+  "e": "nach kulturspezifischen Unterschieden gesucht.",
+  "richtig": "b, c, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen sind im Rahmen entwicklungspsychologischer Forschung zutreffend?",
+  "a": "Altersunterschiede können in der Regel als Entwicklung interpretiert werden.",
+  "b": "Um eine möglichst hohe ökologische Validität zu erreichen, plädierte Bronfenbrenner dafür, bei Laborexperimenten mit Kindern keine systematischen Variationen der Untersuchungsbedingungen vorzunehmen.",
+  "c": "Die Querschnittsmethode sagt nichts über intraindividuelle Veränderungen aus.",
+  "d": "Das Lebensalter ist eine echte unabhängige Variable im eigentlichen Sinne.",
+  "e": "Das FACS ist eine Methode zur direkten Erfassung des emotionalen Erlebens.",
+  "richtig": "c",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Gemäß der Leitsätze einer Entwicklungspsychologie der Lebensspanne nach Baltes",
+  "a": "sollte Entwicklung multidisziplinär erforscht werden.",
+  "b": "ist das Ausmaß intraindividueller Plastizität unbegrenzt.",
+  "c": "setzt die Erforschung von Entwicklung eine auf quantitative Veränderungen ausgerichtete Perspektive voraus.",
+  "d": "sind die zu einem bestimmten historischen Zeitpunkt beobachteten Entwicklungsverläufe in der Regel universell gültig.",
+  "e": "besteht Entwicklung auch in der Kindheit aus Gewinn und Verlust.",
+  "richtig": "a, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Begriffe sind in Piagets Theorie relevant?",
+  "a": "Ko-Konstruktion",
+  "b": "Reizgeneralisierung",
+  "c": "Zentrierung",
+  "d": "Objektpermanenz",
+  "e": "Schema",
+  "richtig": "c, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Wer vertrat eine Stufentheorie der Entwicklung?",
+  "a": "Erikson",
+  "b": "Freud",
+  "c": "Kohlberg",
+  "d": "Piaget",
+  "e": "Bandura",
+  "richtig": "a, b, c, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Beispiele wären der ersten Phase der Internalisierung von Sprache nach Vygotsky zuzuordnen?",
+  "a": "Ein 3-jähriger Junge malt mit seiner älteren Schwester, die ihm sagt: Mal den Baumstamm braun und die Blätter grün.",
+  "b": "Ein 6-jähriges Kind packt seine Schultasche und murmelt dabei laut vor sich hin: In der ersten Stunde habe ich Deutsch. Wo habe ich mein iPad hingelegt?",
+  "c": "Ein 11-jähriges Kind will nach der Schule seine Hausaufgaben machen und überlegt, was es machen soll, welche Materialien es braucht und womit es anfangen soll.",
+  "d": "Ein 4-jähriger Junge versucht, ein Puzzle zusammenzusetzen. Sein Vater sagt: Schau mal, das Teil passt hierhin. Dreh es ein bisschen.",
+  "e": "Die 4-jährige Kim hilft ihrem Großvater beim Backen, der ihr erklärt: Jetzt gibst du das Mehl in die Schüssel und rührst alles um.",
+  "richtig": "a, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Nach der Theorie von Vygotsky bzw. ihrer weiteren Erforschung",
+  "a": "ermöglichen Kulturwerkzeuge soziale Interaktionen.",
+  "b": "ist Lernen durch individuelle, aktive Konstruktion von Wissen sehr viel wichtiger als durch die Weitergabe von Wissen in einem sozialen Umfeld.",
+  "c": "geht das Denken dem Sprechen voraus.",
+  "d": "dienen kollektive Monologe der Herstellung von Intersubjektivität.",
+  "e": "... zeigen Kinder die Fähigkeit zur geteilten Aufmerksamkeit erstmals in dem Alter, in dem sie nach Piaget das konkret-operationale Stadium erreichen.",
+  "richtig": "a",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "In einer Untersuchungsreihe (Bandura, 1965; Bandura et al., 1963) sahen Kinder zunächst Filme, in denen eine Person eine Stehaufpuppe gewaltsam behandelte, und wurden danach mit der Puppe allein gelassen. Die Befunde ergaben, dass",
+  "a": "Kinder alles, was sie durch die Beobachtung anderer lernen, in ihrem eigenen Verhalten reproduzieren.",
+  "b": "Kinder neue Verhaltensweisen schnell durch die Beobachtung anderer Personen erwerben können.",
+  "c": "Kinder nur die Handlungen eines Modells nachahmten, das keine Konsequenzen für sein Verhalten erfuhr.",
+  "d": "... Mädchen sich körperlich aggressiver gegenüber der Puppe verhielten als Jungen, wenn sie ohne bestimmte Anweisungen mit der Puppe allein waren.",
+  "e": "Jungen sich an weniger Handlungen des Modells erinnerten als Mädchen.",
+  "richtig": "b",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen sind für die genannten theoretischen Ansätze bzw. ihre Vertreter zutreffend?",
+  "a": "Nach Bandura und Watson konditionieren ausschließlich Umweltreize das Verhalten.",
+  "b": "Nach Erikson und Freud spielen biologische Reifungsprozesse eine wichtige Rolle in der Entwicklung.",
+  "c": "Nach Watson und Skinner wirken Menschen auf ihre Umwelt ein und nicht umgekehrt.",
+  "d": "Nach Bandura und Bronfenbrenner werden Kinder von ihrer Umwelt beeinflusst, haben aber umgekehrt keinen Einfluss auf ihre Umwelt.",
+  "e": "Nach Skinner und Watson variieren die jeweiligen Prinzipien, die Lernen und Verhalten steuern, über die Lebensspanne hinweg.",
+  "richtig": "b",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "In einer Studie werden Bindungsängstlichkeit und Beziehungszufriedenheit bei Männern und Frauen erfasst. In der männlichen Stichprobe sind die erfassten Variablen signifikant und negativ korreliert, r = -.42. In der weiblichen Stichprobe sind die erfassten Variablen signifikant und positiv korreliert, r = .24. Welche Aussagen sind aufgrund der Befunde zutreffend?",
+  "a": "Der Zusammenhang zwischen Bindungsängstlichkeit und Beziehungszufriedenheit ist in der männlichen Stichprobe stärker ausgeprägt als in der weiblichen Stichprobe.",
+  "b": "Je zufriedener Männer in ihrer Beziehung sind, desto geringer ist ihre Bindungsängstlichkeit.",
+  "c": "In der weiblichen Stichprobe gehen hohe Werte auf der Dimension Beziehungszufriedenheit mit hohen Werten auf der Dimension Bindungsängstlichkeit einher.",
+  "d": "Bindungsängstliche Frauen berichten eine höhere Beziehungszufriedenheit als bindungsängstliche Männer.",
+  "e": "In der männlichen Stichprobe gehen niedrige Werte auf der Dimension Beziehungszufriedenheit mit niedrigen Werten auf der Dimension Bindungsängstlichkeit einher.",
+  "richtig": "a, b, c",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen sind hinsichtlich der Auswahl geeigneter Datenerhebungsmethoden bzw. Untersuchungsdesigns zur Überprüfung entwicklungspsychologischer Forschungsfragen zutreffend?",
+  "a": "Mögliche Risiken einer Studie für die teilnehmenden Personen können vernachlässigt werden, solange der erwartete Nutzen der Forschung groß genug ist.",
+  "b": "Längsschnittdesigns werden verwendet, um die Stabilität oder Veränderung psychologischer Merkmale zu untersuchen.",
+  "c": "Naturalistische Beobachtungen ermöglichen einen kontrollierten Vergleich kindlichen Verhaltens in verschiedenen Situationen.",
+  "d": "Mikrogenetische Designs sind besonders nützlich, um Prozesse, die Veränderungen hervorrufen, in kurzen Zeiträumen detailliert zu erfassen.",
+  "e": "Interviews liefern keine so umfassende Information über das subjektive Erleben von Kindern wie strukturierte Beobachtungen.",
+  "richtig": "b, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Das Verfahren der Erwartungsverletzung wurde von Baillargeon et al. (1985) zur Untersuchung der Objektpermanenz eingesetzt. Welche Aussagen sind zutreffend?",
+  "a": "Die Befunde belegen Piagets Annahmen zur Entwicklung der Objektpermanenz.",
+  "b": "In der Testphase wurde ein physikalisch unmögliches Ereignis gezeigt.",
+  "c": "In der Testphase wurde ein physikalisch mögliches Ereignis gezeigt.",
+  "d": "In einer Habituationsphase wurde ein Sichtschirm um 180 Grad vor- und zurückgeklappt.",
+  "e": "Die Säuglinge betrachteten das physikalisch unmögliche Ereignis länger als das mögliche.",
+  "richtig": "b, c, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Obwohl der Mensch relativ unreif geboren wird, entwickeln Kleinkinder im ersten Lebensjahr relativ schnell viele Fähigkeiten, während andere noch eingeschränkt bleiben. In den ersten vier Wochen nach der Geburt ...",
+  "a": "ist die Sehschärfe im Vergleich zu Erwachsenen eingeschränkt.",
+  "b": "können Neugeborene visuelle Tiefenhinweise nutzen, um die Gefahr des Fallens zu erkennen.",
+  "c": "... zeigen Neugeborene eine Präferenz für das Gesicht ihrer Mutter.",
+  "d": "... können Neugeborene in einigen Kulturen selbständig sitzen.",
+  "e": "... können Neugeborene Zusammenhänge zwischen dem eigenen Verhalten und den daraus resultierenden Konsequenzen lernen.",
+  "richtig": "a, c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Ein Erblichkeitsfaktor von 29% für ein Merkmal bedeutet, dass",
+  "a": "... innerhalb der untersuchten Population genetische Faktoren 29% der Ausprägung dieses Merkmals in der individuellen Entwicklung bestimmen.",
+  "b": "sich in der untersuchten Population monozygote Zwillingspaare hinsichtlich der Ausprägung dieses Merkmals im Durchschnitt ähnlicher sind als dizygote Zwillingspaare.",
+  "c": "der Umweltbeitrag zur Variation dieses Merkmals innerhalb der untersuchten Population größer ist als der genetische Beitrag.",
+  "d": "der Erblichkeitsfaktor für dieses Merkmal in der untersuchten Population niedriger ausgeprägt ist als der Erblichkeitsindex, der allgemein für Intelligenz angenommen wird.",
+  "e": "bei 71% der innerhalb der Population untersuchten Individuen Umwelteinflüsse eine modulierende Wirkung auf dieses Merkmal haben.",
+  "richtig": "b, c, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Die Verwendung von Wörtern wie trinkte oder fliegte im Verlauf der Sprachentwicklung",
+  "a": "könnte nach B. F. Skinner durch positive Verstärkung der Verwendung korrekter Formulierungen wie trank bzw. flog korrigiert werden.",
+  "b": "erfolgt auch dann, wenn Kinder diese Wörter in dieser Form noch nie zuvor gehört haben.",
+  "c": "lässt sich durch die sogenannte Wahrnehmungsverengung erklären.",
+  "d": "steht im Einklang mit der Annahme, dass Menschen über eine angeborene Universalgrammatik im Sinne Chomskys verfügen.",
+  "e": "ist ein Hinweis darauf, dass Kinder Grammatikregeln erworben haben.",
+  "richtig": "a, b, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Einige theoretische Ansätze betonen die Bedeutung sprachspezifischer kognitiver Fähigkeiten für die Sprachentwicklung. Diese Position steht im Widerspruch zu",
+  "a": "der Annahme, dass biologische Faktoren eine zentrale Rolle beim Spracherwerb spielen.",
+  "b": "der Annahme, dass angeborene und erfahrungsbedingte Faktoren bei der Sprachentwicklung zusammenwirken.",
+  "c": "der Beobachtung, dass normal entwickelte Kinder die Grundlagen ihrer Sprache fast ohne explizite Unterweisung erwerben.",
+  "d": "... B. F. Skinners Sichtweise auf die Sprachentwicklung.",
+  "e": "empiristischen Sichtweisen auf die Sprachentwicklung.",
+  "richtig": "d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Aufgaben des Typs falsche Überzeugungen ...",
+  "a": "werden in der Regel von den meisten 3-jährigen Kindern erfolgreich gemeistert.",
+  "b": "liefern nur bei Kindern aus nordamerikanischen und europäischen Industrieländern zuverlässige Ergebnisse.",
+  "c": "... liefern Befunde, die aus nativistischer Sicht die Annahme eines Theory-of-Mind-Moduls stützen.",
+  "d": "werden verwendet, um zu testen, ob ein Kind versteht, dass andere Menschen auf der Grundlage ihrer Überzeugungen handeln, auch wenn das Kind weiß, dass diese Überzeugungen falsch sind.",
+  "e": "... erfordern von Kindern die Fähigkeit zum formal-operationalen Denken im Sinne Piagets.",
+  "richtig": "c, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Pflanze - Blume - Rose ist ein Beispiel für eine Klassenhierarchie. Welche Aussagen gelten für die Entwicklung der Kategorienbildung?",
+  "a": "Eltern nutzen Basisebenenkategorien als Grundlage für das Erklären spezifischerer und allgemeinerer Kategorien.",
+  "b": "Bereits im ersten Lebensjahr unterscheiden Kinder unbelebte Objekte von Tieren oder Menschen.",
+  "c": "Blume stellt die Basisebene dar, die Kinder in der Regel zuerst verwenden, wenn sie anfangen zu sprechen.",
+  "d": "Im Alter von zwei bis drei Jahren beurteilt eine deutliche Mehrheit der Kinder Pflanzen als Lebewesen.",
+  "e": "Die ersten Objektkategorien von Kindern basieren weitgehend auf perzeptueller Ähnlichkeit.",
+  "richtig": "a, b, c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen bezüglich fluider bzw. kristalliner Intelligenz sind zutreffend?",
+  "a": "Die Unterscheidung zwischen fluider und kristalliner Intelligenz wird durch die Tatsache gestützt, dass die Korrelationen zwischen Tests für fluide Intelligenz höher sind als die Korrelationen zwischen Tests für kristalline Intelligenz.",
+  "b": "Die fluide Intelligenz nimmt von den frühen Lebensphasen bis ins hohe Alter kontinuierlich zu.",
+  "c": "Der präfrontale Kortex ist besonders aktiv bei Aufgaben, die ein hohes Maß an kristalliner Intelligenz erfordern, während seine Aktivität bei Aufgaben, die fluide Intelligenz erfordern, vergleichsweise geringer ist.",
+  "d": "Wahrnehmungsgeschwindigkeit ist ein Maß der fluiden Intelligenz.",
+  "e": "Die kristalline Intelligenz nimmt von den frühen Lebensphasen bis ins hohe Alter kontinuierlich ab.",
+  "richtig": "d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Sascha ist 10 Jahre und Can ist 6 Jahre alt. Sie führen mit beiden Kindern einen standardisierten Intelligenztest durch. Sascha erreicht einen IQ-Wert in Höhe von 99. Can erreicht einen IQ-Wert in Höhe von 114. Welche Aussagen sind zutreffend?",
+  "a": "Die Differenz zwischen Cans IQ und Saschas IQ beträgt eine Standardabweichung.",
+  "b": "Die Mehrheit der Kinder in Saschas Altersgruppe hat IQ-Werte, die im Bereich zwischen einer Standardabweichung über und unter Saschas IQ liegen.",
+  "c": "Würde Sascha im Alter von siebzehn Jahren einen IQ-Wert von 106 erzielen, könnte dies teilweise auf veränderte Entwicklungsbedingungen zurückzuführen sein.",
+  "d": "Mehr als 90% der Kinder in Cans Altersgruppe hat einen niedrigeren IQ als Can.",
+  "e": "Der durchschnittliche IQ in Saschas Altersgruppe ist niedriger als Saschas IQ.",
+  "richtig": "a, b, c",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Sowohl Schuld als auch Scham",
+  "a": "sind Emotionen, die nordamerikanische Kinder gleichermaßen erleben, wenn ihre Eltern ihnen die Konsequenzen ihres Handelns für andere erklären.",
+  "b": "sind auf die Wahrnehmung des eigenen Selbst bezogen.",
+  "c": "sind mit einem Gefühl der Sorge um andere Personen verbunden.",
+  "d": "lassen sich bei 2-jährigen Kindern beobachten.",
+  "e": "sind Emotionen, die kulturübergreifend durch identische Situationen hervorgerufen werden.",
+  "richtig": "b, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Trennungsangst ist eine emotionale Reaktion, die",
+  "a": "auf westliche Kulturen beschränkt ist.",
+  "b": "eher bei einem 6 Monate alten Kind als bei einem 12 Monate alten Kind beobachtet werden kann.",
+  "c": "adaptiv ist, da sie Kleinkinder dazu veranlasst, in der Nähe von Personen zu bleiben, die sie beschützen und für sie sorgen können.",
+  "d": "Kleinkinder erleben, wenn sie von ihren Bezugspersonen getrennt werden oder eine solche Trennung erwarten.",
+  "e": "insbesondere bei Einzelkindern auftritt.",
+  "richtig": "c, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Um zu untersuchen, wie Kinder über Regelverstöße denken, fragte Piaget Kinder im Alter von 6 bis 12 Jahren, warum man in der Schule nicht von anderen abschreiben dürfe. Welche Antworten sind typischerweise Kindern zuzuordnen, die das Stadium der konkreten Operationen noch nicht erreicht haben?",
+  "a": "Weil es böse ist.",
+  "b": "Das ist hässlich, man wird bestraft.",
+  "c": "Abschreiben ist unfair gegenüber Kindern, die hart arbeiten.",
+  "d": "Weil die Lehrerin das gesagt hat.",
+  "e": "Das Kind hätte nicht abschreiben dürfen. Wenn es aber nicht gescheit war, durfte es das ein wenig.",
+  "richtig": "a, b, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Hinsichtlich der Entwicklung moralischen Denkens und Urteilens lassen sich drei Bereiche unterscheiden: moralische, sozial-konventionelle und persönliche Urteile. Welche Aussagen sind zutreffend?",
+  "a": "In vielen Kulturen beurteilen 3-Jährige moralische Verfehlungen negativer als Verstöße gegen soziale Konventionen.",
+  "b": "Das Niveau der moralischen Entwicklung, das Kinder entsprechend Kohlbergs Klassifikationssystem erreichen, ist in allen Kulturen identisch.",
+  "c": "In vielen Kulturen sind Kinder und Jugendliche davon überzeugt, dass ihre Eltern die alleinige Autorität in moralischen Fragen haben, selbst wenn die elterlichen Anweisungen gegen moralische Prinzipien verstoßen.",
+  "d": "Innerhalb einer Kultur können religiöse Überzeugungen beeinflussen, was als moralische Frage oder als soziale Konvention zu betrachten ist.",
+  "e": "Ob der Einzelne verpflichtet ist, sich um die Bedürfnisse seiner Mitmenschen zu kümmern, kann je nach Kultur eine Frage der moralischen Verpflichtung oder der persönlichen Präferenz sein.",
+  "richtig": "a, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen werden durch empirische Forschungsbefunde gestützt?",
+  "a": "Das Verständnis, dass das Geschlecht über die Zeit hinweg stabil bleibt, entwickeln Kinder etwa in demselben Alter, in dem sie beginnen, Piagets Invarianzaufgaben erfolgreich zu lösen.",
+  "b": "Geschlechterunterschiede bei Kindern in ihren Schulleistungen lassen sich teilweise auf Geschlechterstereotype der Eltern zurückführen.",
+  "c": "Die Unterschiede in psychologischen Merkmalen zwischen den Geschlechtern sind tendenziell größer, als es Geschlechterstereotype erwarten lassen.",
+  "d": "Kinder verstärken die Entwicklung von Geschlechterschemata, indem sie schemainkonsistente Informationen ignorieren oder verzerren.",
+  "e": "Metaanalytisch ermittelte Effektstärken, die als trivial zu beurteilen sind, belegen, dass es im Jugendalter keine statistisch signifikanten Geschlechterunterschiede in Mathematikleistungen gibt.",
+  "richtig": "b, d",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Im Fremde-Situation-Test ...",
+  "a": "neigen unsicher-ambivalent gebundene Kinder dazu, ihre Bezugspersonen zu meiden.",
+  "b": "identifizierte Bindungsmuster sind ein Kennzeichen für die Qualität der Beziehung zwischen Bezugsperson und Kind.",
+  "c": "durchgeführte Beobachtungen lassen sich als naturalistische Experimente charakterisieren.",
+  "d": "... wiesen US-amerikanische Stichproben im Vergleich zu vielen anderen Kulturen im Mittel einen überzufällig hohen Anteil an sicheren Bindungen auf.",
+  "e": "können Verhaltensweisen von Kindern beobachtet werden, die Rückschlüsse auf die Ursachen unterschiedlicher Bindungsqualitäten zulassen.",
+  "richtig": "b",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen treffen auf die Ausprägung elterlicher Wärme bzw. Kontrolle in Baumrinds Typologie der Erziehungsstile zu?",
+  "a": "Beim autoritären Erziehungsstil ist die Kontrolle niedrig.",
+  "b": "Beim autoritativen Erziehungsstil ist die Kontrolle hoch.",
+  "c": "Beim permissiven Erziehungsstil ist die Wärme hoch.",
+  "d": "Beim unbeteiligten Erziehungsstil ist die Kontrolle hoch.",
+  "e": "Beim autoritativen Erziehungsstil ist die Wärme hoch.",
+  "richtig": "b, c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen sind für die auf der Basis soziometrischer Urteile klassifizierten Gruppen von Kindern zutreffend?",
+  "a": "Ignorierte Kinder sind bei vielen Peers weder beliebt noch unbeliebt.",
+  "b": "Abgelehnte Kinder sind bei wenigen Peers unbeliebt und bei wenigen Peers beliebt.",
+  "c": "Kontroverse Kinder zeigen Eigenschaften sowohl von abgelehnten als auch von beliebten Kindern.",
+  "d": "Längerfristig ist die soziometrische Stabilität bei ignorierten, beliebten und abgelehnten Kindern in der Regel gleich hoch.",
+  "e": "Die Mehrheit der abgelehnten Kinder ist einer von zwei Kategorien zuzurechnen: den aggressiven oder den verschlossenen Kindern.",
+  "richtig": "a, c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Die Autor*innen untersuchten",
+  "a": "Altersunterschiede in der Verwendung von Strategien zur Emotionsregulation.",
+  "b": "die Hypothese, dass sich die Fähigkeit zur Emotionsregulation erst nach dem ersten Lebensjahr entwickelt.",
+  "c": "individuelle Unterschiede in der Verwendung von Strategien zur Emotionsregulation.",
+  "d": "die Hypothese, dass Kinder unabhängig von ihrem Temperament die gleichen Strategien zur Emotionsregulation im gleichen Ausmaß verwenden.",
+  "e": "Einflüsse der elterlichen Sozialisation auf die Entwicklung der Emotionsregulation.",
+  "richtig": "a, c",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Es handelt sich um eine Studie mit ...",
+  "a": "mikrogenetischem Design.",
+  "b": "Längsschnittdesign.",
+  "c": "Kindern und ihren Müttern.",
+  "d": "Korrelationsdesign.",
+  "e": "... strukturierten Beobachtungen.",
+  "richtig": "b, c, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Hypothesen wurden in der Studie untersucht?",
+  "a": "Die Regulation positiver Emotionen moderiert den positiven Zusammenhang zwischen Wärme und Peer-Akzeptanz.",
+  "b": "Die Regulation positiver Emotionen und Peer-Akzeptanz stehen in einem negativen Zusammenhang.",
+  "c": "Die Regulation negativer Emotionen und Responsivität stehen in einem positiven Zusammenhang.",
+  "d": "Die Regulation negativer Emotionen vermittelt den positiven Zusammenhang zwischen Reziprozität und Empathie.",
+  "e": "Wärme und die Regulation positiver Emotionen stehen in einem positiven Zusammenhang.",
+  "richtig": "c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Ziel der Studie war es, zu untersuchen, inwieweit ...",
+  "a": "die Fähigkeit zur inhibitorischen Kontrolle mit mathematischen Vorläuferfertigkeiten zusammenhängt.",
+  "b": "die Fähigkeit zur inhibitorischen Kontrolle mit der Qualität der familiären Lernumwelt zusammenhängt.",
+  "c": "Wechselwirkungen zwischen Reifungsprozessen und Lernerfahrungen bei der Entwicklung der Emotionsregulation bestehen.",
+  "d": "... es im Alter von 4 bis 6 Jahren zu signifikanten Entwicklungsveränderungen hinsichtlich zentral-exekutiver Arbeitsgedächtnisprozesse kommt.",
+  "e": "wöchentliche Übungen zur Verbalisierung von Emotionen die Fähigkeit zur inhibitorischen Kontrolle nach einem Vorschuljahr verbessern.",
+  "richtig": "a",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen treffen auf die Untersuchungsvariablen der Studie zu?",
+  "a": "Die Kinder wurden zu ihren emotionsbezogenen Überzeugungen (emotion beliefs) bezüglich der sozialen Konsequenzen negativer Emotionen befragt.",
+  "b": "Zur Hypothesenprüfung wurden mediierte Moderationsanalysen (mediated moderation analyses) mit Geschlecht als Mediator durchgeführt.",
+  "c": "Eine Untersuchung der Beziehung zwischen den Ausprägungen einer Person auf verschiedenen Variablen wurde durchgeführt.",
+  "d": "Eine experimentelle Kontrolle der zentralen unabhängigen Variablen war unmöglich.",
+  "e": "Für die abhängigen Variablen wurden Gruppenvergleiche durchgeführt.",
+  "richtig": "c, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche methodischen Einschränkungen diskutieren die Autor*innen?",
+  "a": "Es ist unklar, ob die beobachteten emotionalen Reaktionen das prosoziale Verhalten verursacht haben.",
+  "b": "Die Vertrautheit von Kindern mit Erwachsenen, die einen traurigen emotionalen Ausdruck zeigen, wurde empirisch kontrolliert.",
+  "c": "Die deutschen und israelischen Kinder könnten ihre Spielpartnerinnen als Angehörige einer Fremdgruppe (out-group) wahrgenommen haben.",
+  "d": "Möglicherweise gab es kulturelle Unterschiede hinsichtlich der Vertrautheit der Kinder mit den Spielpartnerinnen bzw. der Untersuchungssituation.",
+  "e": "Die Persönlichkeit der Versuchsleiterinnen könnte ihr Interaktionsverhalten in der Spielsituation beeinflusst haben.",
+  "richtig": "a, d, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen treffen auf die Untersuchungsmethoden zu?",
+  "a": "Die Stressinduktion erfolgte über den Fremde-Situation-Test.",
+  "b": "Die Bindungsqualität wurde auf Grundlage der Beobachtung der häuslichen Interaktion zwischen Mutter und Kind erfasst.",
+  "c": "Die Hormonmessung erfolgte zu 5 Zeitpunkten.",
+  "d": "Es handelt sich um eine Längsschnittuntersuchung von 11 bis 20 Monaten.",
+  "e": "Die Kontrollsituation bestand aus freiem Spiel.",
+  "richtig": "a, c, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen treffen auf die Untersuchung zu?",
+  "a": "Die Stresshormonmessung erfolgte im Labor.",
+  "b": "Die Emotion Regulation Checklist (ERC) wurde von jeweils zumindest einem Elternteil ausgefüllt.",
+  "c": "Die Kinder wurden mittels EKG und EEG untersucht.",
+  "d": "Eltern und Kinder wurden Schreckreizen ausgesetzt.",
+  "e": "Die erhobenen physiologischen Maße unterlagen Bedingungen, die nicht hinreichend kontrolliert wurden.",
+  "richtig": "a, b, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Die Studie",
+  "a": "zeigt in der Handlungsbeobachtung bei einer realen Gefahr (Teilstudie 6) deutlich hypothesenkonformes Verhalten der ängstlich-unsicheren Personen.",
+  "b": "liefert Anhaltspunkte dafür, dass eine unsichere Bindung vorteilhaft sein kann.",
+  "c": "zeigt Zusammenhänge zwischen Bindungsängstlichkeit und antezedenzfokussierter Emotionsregulation auf.",
+  "d": "zeigt die Bedeutung einer sicheren Bindung für Lebenszufriedenheit auf.",
+  "e": "zeigt Zusammenhänge zwischen Bindungsvermeidung und selektiver Gedächtnisleistung auf.",
+  "richtig": "a, b, e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Das Arbeitsmodell Erwachsener mit einem vermeidend-unsicheren Bindungsstil wird durch welche Verhaltens- bzw. Handlungstendenzen charakterisiert:",
+  "a": "geringe Bemühungen, andere Personen in die Unterstützung und Hilfe in bedrohlichen Situationen mit einzubeziehen.",
+  "b": "Verhaltensweisen, die Ein-Dor et al. (2011) als rapid fight-flight Schema bezeichnen.",
+  "c": "eine generell erhöhte Wachsamkeit möglichen Gefahren gegenüber.",
+  "d": "Warnung anderen Personen bei drohender Gefahr.",
+  "e": "Minimierung der Distanz zu anderen Personen im Umgang mit einer Bedrohung.",
+  "richtig": "a, b",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Die Aktivierung der Bindungsrepräsentation vor dem Auftreten eines Stressors",
+  "a": "... reduzierte das Erleben negativer Emotionen, wenn die Bindungsfigur eine befreundete Person war.",
+  "b": "erhöhte das Erleben negativer Emotionen, wenn die Bindungsfigur die Mutter war.",
+  "c": "erfolgte durch Beantwortung des Fragebogens Experiences in Close Relationships Inventory - Revised (ECR-R).",
+  "d": "erhöhte das Erleben positiver Emotionen, wenn es sich um die primäre Bindungsperson handelte.",
+  "e": "erfolgte unter Kontrolle der Frequenz der Erinnerung.",
+  "richtig": "e",
+  "begruendung": ":-)"
+},
+      {
+  "frage": "Welche Aussagen sind zutreffend?",
+  "a": "Zukünftige Forschung müsste systematisch größere und heterogenere Stichproben einbeziehen, um z. B. auch Aussagen über Risikogruppen machen zu können.",
+  "b": "Insgesamt finden sich nur wenig überzeugende Indikatoren dafür, dass Bindung bzw. der Bindungsstil und Stress- bzw. Emotionsregulation in allen untersuchten Altersgruppen in einem Zusammenhang stehen.",
+  "c": "Es stehen Studien aus, die Auskünfte über interindividuelle Unterschiede in Entwicklungsverläufen geben könnten.",
+  "d": "Auf theoretischer Seite muss die Frage der Entwicklung und Organisation des internalen Arbeitsmodells über die Lebensspanne unter Einbezug verwandter Theorien (z. B. Schematheorien) vorangetrieben werden.",
+  "e": "Die in den Studien konzipierten Interventionsprogramme müssten einer systematischen Überprüfung ihrer Wirksamkeit unterzogen werden.",
+  "richtig": "a, c, d",
+  "begruendung": ":-)"
+}
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0; // Das sind jetzt die gesammelten Punkte
+    let totalPossiblePoints = 0; // Hier summieren wir alle im Quiz möglichen Punkte auf
+    let userAnswers = {};
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        totalPossiblePoints = 0;
+        userAnswers = {};
+
+        // Berechne vorab die insgesamt erreichbaren Punkte im gesamten Quiz
+        questions.forEach((q, index) => {
+            const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+            totalPossiblePoints += correctArr.length;
+        });
+
+        document.getElementById('startScreen').classList.remove('active');
+        document.getElementById('quizScreen').classList.add('active');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        resetState();
+        const q = questions[currentQuestionIndex];
+        
+        document.getElementById('questionCounter').innerText = `Frage ${currentQuestionIndex + 1} / ${questions.length}`;
+        document.getElementById('questionText').innerText = q.frage;
+
+        const optionsList = document.getElementById('optionsList');
+        const optionsKeys = ['a', 'b', 'c', 'd', 'e'];
+
+        optionsKeys.forEach(key => {
+            if (q[key]) {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${key.toUpperCase()}) ${q[key]}`;
+                btn.dataset.key = key;
+                btn.onclick = () => toggleOption(btn);
+                optionsList.appendChild(btn);
+            }
+        });
+
+        updateProgress();
+    }
+
+    function toggleOption(btn) {
+        if (btn.disabled) return;
+        btn.classList.toggle('selected');
+    }
+
+    function resetState() {
+        const optionsList = document.getElementById('optionsList');
+        optionsList.innerHTML = '';
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.classList.remove('show');
+        explanationBox.innerText = '';
+        const actionBtn = document.getElementById('actionBtn');
+        actionBtn.innerText = 'Antworten prüfen';
+        actionBtn.onclick = handleAction;
+    }
+
+    function handleAction() {
+        const actionBtn = document.getElementById('actionBtn');
+        const q = questions[currentQuestionIndex];
+        const selectedButtons = document.querySelectorAll('.option-btn.selected');
+        
+        if (selectedButtons.length === 0) {
+            alert('Bitte wähle mindestens eine Option aus.');
+            return;
+        }
+
+        const correctArr = q.richtig.split(',').map(s => s.trim().toLowerCase());
+        const optionButtons = document.querySelectorAll('.option-btn');
+
+        // Buttons sperren und Auswertung anzeigen
+        optionButtons.forEach(btn => {
+            btn.disabled = true;
+            const key = btn.dataset.key;
+            const isSelected = btn.classList.contains('selected');
+            const isCorrect = correctArr.includes(key);
+
+            if (isCorrect) {
+                btn.classList.add('correct-ans');
+                // Wenn richtig angekreuzt wurde, geben wir einen Punkt dazu
+                if (isSelected) {
+                    score += 1;
+                }
+            } else {
+                if (isSelected) {
+                    btn.classList.add('wrong-ans');
+                }
+            }
+        });
+
+        // Begründung anzeigen
+        const explanationBox = document.getElementById('explanationBox');
+        explanationBox.innerText = "Begründung: " + q.begruendung;
+        explanationBox.classList.add('show');
+
+        // Button-Text auf "Weiter" ändern
+        actionBtn.innerText = 'Nächste Frage';
+        actionBtn.onclick = nextQuestion;
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function updateProgress() {
+        const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizScreen').classList.remove('active');
+        document.getElementById('resultScreen').classList.add('active');
+        document.getElementById('progressFill').style.width = '100%';
+
+        // Prozentberechnung basierend auf den tatsächlich gesammelten Punkten vs. allen möglichen Punkten
+        const percentage = totalPossiblePoints > 0 ? Math.round((score / totalPossiblePoints) * 100) : 0;
+
+        document.getElementById('resultScore').innerText = `${percentage}%`;
+
+        const statusEl = document.getElementById('resultStatus');
+        const detailsEl = document.getElementById('resultDetails');
+
+        if (percentage >= 75) {
+            statusEl.innerText = "Bestanden!";
+            statusEl.className = "result-status passed";
+        } else {
+            statusEl.innerText = "Nicht bestanden";
+            statusEl.className = "result-status failed";
+        }
+
+        detailsEl.innerText = `Du hast ${score} von ${totalPossiblePoints} möglichen Antwort-Punkten richtig erreicht.`;
+    }
+
+    function restartQuiz() {
+        document.getElementById('resultScreen').classList.remove('active');
+        document.getElementById('startScreen').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
